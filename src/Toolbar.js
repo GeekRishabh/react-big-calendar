@@ -22,12 +22,14 @@ class Toolbar extends React.Component {
           <button
             type="button"
             onClick={this.navigate.bind(null, navigate.PREVIOUS)}
+            id="nagigate-left"
           >
             {messages.previous}
           </button>
           <button
             type="button"
             onClick={this.navigate.bind(null, navigate.NEXT)}
+            id="nagigate-right"
           >
             {messages.next}
           </button>

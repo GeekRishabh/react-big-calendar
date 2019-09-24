@@ -171,7 +171,7 @@ var DateLocalizer = function DateLocalizer(spec) {
   }
 }
 function mergeWithDefaults(localizer, culture, formatOverrides, messages) {
-  var formats = _extends({}, localizer.formats, {}, formatOverrides)
+  var formats = _extends({}, localizer.formats, formatOverrides)
 
   return _extends({}, localizer, {
     messages: messages,
@@ -205,7 +205,7 @@ var defaultMessages = {
   },
 }
 function messages(msgs) {
-  return _extends({}, defaultMessages, {}, msgs)
+  return _extends({}, defaultMessages, msgs)
 }
 
 /* eslint no-fallthrough: off */
@@ -370,7 +370,7 @@ var EventCell =
           'div',
           _extends({}, props, {
             tabIndex: 0,
-            style: _extends({}, userProps.style, {}, style),
+            style: _extends({}, userProps.style, style),
             className: clsx('rbc-event', className, userProps.className, {
               'rbc-selected': selected,
               'rbc-event-allday': showAsAllDay,
@@ -551,7 +551,7 @@ var Popup =
       return React.createElement(
         'div',
         {
-          style: _extends({}, this.props.style, {}, style),
+          style: _extends({}, this.props.style, style),
           className: 'rbc-overlay',
           ref: popperRef,
         },
@@ -612,13 +612,12 @@ Popup.propTypes =
             current: PropTypes.Element,
           }),
         ]),
+        /**
+         * The Overlay component, of react-overlays, creates a ref that is passed to the Popup, and
+         * requires proper ref forwarding to be used without error
+         */
       }
     : {}
-/**
- * The Overlay component, of react-overlays, creates a ref that is passed to the Popup, and
- * requires proper ref forwarding to be used without error
- */
-
 var Popup$1 = React.forwardRef(function(props, ref) {
   return React.createElement(
     Popup,
@@ -1827,7 +1826,7 @@ function getSlotMetrics() {
       slots: range.length,
       clone: function clone(args) {
         var metrics = getSlotMetrics()
-        return metrics(_extends({}, options, {}, args))
+        return metrics(_extends({}, options, args))
       },
       getDateForSlot: function getDateForSlot(slotNumber) {
         return range[slotNumber]
@@ -4967,14 +4966,13 @@ Agenda.title = function(start, _ref3) {
 }
 
 var _VIEWS
-var VIEWS =
-  ((_VIEWS = {}),
-  (_VIEWS[views.MONTH] = MonthView),
-  (_VIEWS[views.WEEK] = Week),
-  (_VIEWS[views.WORK_WEEK] = WorkWeek),
-  (_VIEWS[views.DAY] = Day),
-  (_VIEWS[views.AGENDA] = Agenda),
-  _VIEWS)
+var VIEWS = ((_VIEWS = {}),
+(_VIEWS[views.MONTH] = MonthView),
+(_VIEWS[views.WEEK] = Week),
+(_VIEWS[views.WORK_WEEK] = WorkWeek),
+(_VIEWS[views.DAY] = Day),
+(_VIEWS[views.AGENDA] = Agenda),
+_VIEWS)
 
 function moveDate(View, _ref) {
   var action = _ref.action,
@@ -5067,6 +5065,7 @@ var Toolbar =
             {
               type: 'button',
               onClick: this.navigate.bind(null, navigate.PREVIOUS),
+              id: 'nagigate-left',
             },
             messages.previous
           ),
@@ -5075,6 +5074,7 @@ var Toolbar =
             {
               type: 'button',
               onClick: this.navigate.bind(null, navigate.NEXT),
+              id: 'nagigate-right',
             },
             messages.next
           )
