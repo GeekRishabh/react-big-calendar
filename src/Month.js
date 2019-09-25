@@ -27,7 +27,7 @@ import { useGesture } from 'react-use-gesture'
 const GestureWrapper = props => {
   const _swipeBind = useGesture({
     onDrag: throttleHandler,
-    onScroll: throttleHandler,
+    // onScroll: throttleHandler,
 
     onWheel: throttleHandler,
   })
@@ -39,18 +39,12 @@ const GestureWrapper = props => {
   )
 }
 
-const handler = ({ wheeling, vxvy: [vx, vy] }) => {
+const handler = ({ wheeling, vxvy: [vx] }) => {
   if (!wheeling) {
     if (vx <= 0) {
       document.querySelector('#navigate-right').click()
     }
     if (vx > 0) {
-      document.querySelector('#navigate-left').click()
-    }
-    if (vy <= 0) {
-      document.querySelector('#navigate-right').click()
-    }
-    if (vy > 0) {
       document.querySelector('#navigate-left').click()
     }
   }

@@ -2194,7 +2194,7 @@ DateHeader.propTypes =
 var GestureWrapper = function GestureWrapper(props) {
   var _swipeBind = useGesture({
     onDrag: throttleHandler,
-    onScroll: throttleHandler,
+    // onScroll: throttleHandler,
     onWheel: throttleHandler,
   })
 
@@ -2208,8 +2208,7 @@ var GestureWrapper = function GestureWrapper(props) {
 var handler = function handler(_ref) {
   var wheeling = _ref.wheeling,
     _ref$vxvy = _ref.vxvy,
-    vx = _ref$vxvy[0],
-    vy = _ref$vxvy[1]
+    vx = _ref$vxvy[0]
 
   if (!wheeling) {
     if (vx <= 0) {
@@ -2217,14 +2216,6 @@ var handler = function handler(_ref) {
     }
 
     if (vx > 0) {
-      document.querySelector('#navigate-left').click()
-    }
-
-    if (vy <= 0) {
-      document.querySelector('#navigate-right').click()
-    }
-
-    if (vy > 0) {
       document.querySelector('#navigate-left').click()
     }
   }
@@ -5108,13 +5099,13 @@ var Toolbar =
           React.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.PREVIOUS),
-            id: 'navigate-right',
+            id: 'navigate-left',
             className: 'back fc-icon fc-icon-chevron-left test',
           }),
           React.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.NEXT),
-            id: 'navigate-left',
+            id: 'navigate-right',
             className: 'next fc-icon fc-icon-chevron-right',
           })
         ),
