@@ -26,7 +26,7 @@ import { useGesture } from 'react-use-gesture'
 
 const GestureWrapper = props => {
   const _swipeBind = useGesture({
-    // onDrag: throttleHandler,
+    onDrag: throttleHandler,
     onScroll: throttleHandler,
 
     onWheel: throttleHandler,
@@ -39,12 +39,18 @@ const GestureWrapper = props => {
   )
 }
 
-const handler = ({ wheeling, vx: [vx] }) => {
+const handler = ({ wheeling, vxvy: [vx, vy] }) => {
   if (!wheeling) {
     if (vx <= 0) {
       document.querySelector('#navigate-right').click()
     }
     if (vx > 0) {
+      document.querySelector('#navigate-left').click()
+    }
+    if (vy <= 0) {
+      document.querySelector('#navigate-right').click()
+    }
+    if (vy > 0) {
       document.querySelector('#navigate-left').click()
     }
   }
@@ -112,14 +118,12 @@ class MonthView extends React.Component {
     this._weekCount = weeks.length
 
     return (
-      <GestureWrapper className="xs-pt-30 xs-pb-50 ">
-        <div className={clsx('rbc-month-view', className)}>
-          <div className="rbc-row rbc-month-header">
-            {this.renderHeaders(weeks[0])}
-          </div>
-          {weeks.map(this.renderWeek)}
-          {this.props.popup && this.renderOverlay()}
+      <GestureWrapper className={clsx('rbc-month-view', className)}>
+        <div className="rbc-row rbc-month-header">
+          {this.renderHeaders(weeks[0])}
         </div>
+        {weeks.map(this.renderWeek)}
+        {this.props.popup && this.renderOverlay()}
       </GestureWrapper>
     )
   }

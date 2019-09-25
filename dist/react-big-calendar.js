@@ -84,12 +84,9 @@
       m = b ? Symbol.for('react.concurrent_mode') : 60111,
       n = b ? Symbol.for('react.forward_ref') : 60112,
       p = b ? Symbol.for('react.suspense') : 60113,
-      q = b ? Symbol.for('react.suspense_list') : 60120,
-      r = b ? Symbol.for('react.memo') : 60115,
-      t = b ? Symbol.for('react.lazy') : 60116,
-      v = b ? Symbol.for('react.fundamental') : 60117,
-      w = b ? Symbol.for('react.responder') : 60118
-    function x(a) {
+      q = b ? Symbol.for('react.memo') : 60115,
+      r = b ? Symbol.for('react.lazy') : 60116
+    function t(a) {
       if ('object' === typeof a && null !== a) {
         var u = a.$$typeof
         switch (u) {
@@ -112,17 +109,17 @@
                     return u
                 }
             }
-          case t:
           case r:
+          case q:
           case d:
             return u
         }
       }
     }
-    function y(a) {
-      return x(a) === m
+    function v(a) {
+      return t(a) === m
     }
-    exports.typeOf = x
+    exports.typeOf = t
     exports.AsyncMode = l
     exports.ConcurrentMode = m
     exports.ContextConsumer = k
@@ -130,8 +127,8 @@
     exports.Element = c
     exports.ForwardRef = n
     exports.Fragment = e
-    exports.Lazy = t
-    exports.Memo = r
+    exports.Lazy = r
+    exports.Memo = q
     exports.Portal = d
     exports.Profiler = g
     exports.StrictMode = f
@@ -145,54 +142,51 @@
         a === g ||
         a === f ||
         a === p ||
-        a === q ||
         ('object' === typeof a &&
           null !== a &&
-          (a.$$typeof === t ||
-            a.$$typeof === r ||
+          (a.$$typeof === r ||
+            a.$$typeof === q ||
             a.$$typeof === h ||
             a.$$typeof === k ||
-            a.$$typeof === n ||
-            a.$$typeof === v ||
-            a.$$typeof === w))
+            a.$$typeof === n))
       )
     }
     exports.isAsyncMode = function(a) {
-      return y(a) || x(a) === l
+      return v(a) || t(a) === l
     }
-    exports.isConcurrentMode = y
+    exports.isConcurrentMode = v
     exports.isContextConsumer = function(a) {
-      return x(a) === k
+      return t(a) === k
     }
     exports.isContextProvider = function(a) {
-      return x(a) === h
+      return t(a) === h
     }
     exports.isElement = function(a) {
       return 'object' === typeof a && null !== a && a.$$typeof === c
     }
     exports.isForwardRef = function(a) {
-      return x(a) === n
+      return t(a) === n
     }
     exports.isFragment = function(a) {
-      return x(a) === e
+      return t(a) === e
     }
     exports.isLazy = function(a) {
-      return x(a) === t
+      return t(a) === r
     }
     exports.isMemo = function(a) {
-      return x(a) === r
+      return t(a) === q
     }
     exports.isPortal = function(a) {
-      return x(a) === d
+      return t(a) === d
     }
     exports.isProfiler = function(a) {
-      return x(a) === g
+      return t(a) === g
     }
     exports.isStrictMode = function(a) {
-      return x(a) === f
+      return t(a) === f
     }
     exports.isSuspense = function(a) {
-      return x(a) === p
+      return t(a) === p
     }
   })
 
@@ -254,8 +248,6 @@
         var REACT_CONTEXT_TYPE = hasSymbol
           ? Symbol.for('react.context')
           : 0xeace
-        // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
-        // (unstable) APIs that have been removed. Can we remove the symbols?
         var REACT_ASYNC_MODE_TYPE = hasSymbol
           ? Symbol.for('react.async_mode')
           : 0xeacf
@@ -268,17 +260,8 @@
         var REACT_SUSPENSE_TYPE = hasSymbol
           ? Symbol.for('react.suspense')
           : 0xead1
-        var REACT_SUSPENSE_LIST_TYPE = hasSymbol
-          ? Symbol.for('react.suspense_list')
-          : 0xead8
         var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3
         var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4
-        var REACT_FUNDAMENTAL_TYPE = hasSymbol
-          ? Symbol.for('react.fundamental')
-          : 0xead5
-        var REACT_RESPONDER_TYPE = hasSymbol
-          ? Symbol.for('react.responder')
-          : 0xead6
 
         function isValidElementType(type) {
           return (
@@ -290,16 +273,13 @@
             type === REACT_PROFILER_TYPE ||
             type === REACT_STRICT_MODE_TYPE ||
             type === REACT_SUSPENSE_TYPE ||
-            type === REACT_SUSPENSE_LIST_TYPE ||
             (typeof type === 'object' &&
               type !== null &&
               (type.$$typeof === REACT_LAZY_TYPE ||
                 type.$$typeof === REACT_MEMO_TYPE ||
                 type.$$typeof === REACT_PROVIDER_TYPE ||
                 type.$$typeof === REACT_CONTEXT_TYPE ||
-                type.$$typeof === REACT_FORWARD_REF_TYPE ||
-                type.$$typeof === REACT_FUNDAMENTAL_TYPE ||
-                type.$$typeof === REACT_RESPONDER_TYPE))
+                type.$$typeof === REACT_FORWARD_REF_TYPE))
           )
         }
 
@@ -1672,6 +1652,41 @@
     }
   })
 
+  function _extends$1() {
+    _extends$1 =
+      Object.assign ||
+      function(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = arguments[i]
+
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key]
+            }
+          }
+        }
+
+        return target
+      }
+
+    return _extends$1.apply(this, arguments)
+  }
+
+  function _objectWithoutPropertiesLoose$1(source, excluded) {
+    if (source == null) return {}
+    var target = {}
+    var sourceKeys = Object.keys(source)
+    var key, i
+
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i]
+      if (excluded.indexOf(key) >= 0) continue
+      target[key] = source[key]
+    }
+
+    return target
+  }
+
   /**
    * Copyright (c) 2013-present, Facebook, Inc.
    *
@@ -1780,6 +1795,12 @@
     )
   }
 
+  function _inheritsLoose$1(subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype)
+    subClass.prototype.constructor = subClass
+    subClass.__proto__ = superClass
+  }
+
   function uncontrollable(Component, controlledValues, methods) {
     if (methods === void 0) {
       methods = []
@@ -1804,7 +1825,7 @@
     var UncontrolledComponent =
       /*#__PURE__*/
       (function(_React$Component) {
-        _inheritsLoose(UncontrolledComponent, _React$Component)
+        _inheritsLoose$1(UncontrolledComponent, _React$Component)
 
         function UncontrolledComponent() {
           var _this
@@ -1906,7 +1927,7 @@
 
           var _this$props2 = this.props,
             innerRef = _this$props2.innerRef,
-            props = _objectWithoutPropertiesLoose(_this$props2, ['innerRef'])
+            props = _objectWithoutPropertiesLoose$1(_this$props2, ['innerRef'])
 
           PROPS_TO_OMIT.forEach(function(prop) {
             delete props[prop]
@@ -1919,7 +1940,7 @@
           })
           return React__default.createElement(
             Component,
-            _extends({}, props, newProps, this.handlers, {
+            _extends$1({}, props, newProps, this.handlers, {
               ref: innerRef || this.attachRef,
             })
           )
@@ -1929,7 +1950,7 @@
       })(React__default.Component)
 
     UncontrolledComponent.displayName = 'Uncontrolled(' + displayName + ')'
-    UncontrolledComponent.propTypes = _extends(
+    UncontrolledComponent.propTypes = _extends$1(
       {
         innerRef: function innerRef() {},
       },
@@ -1948,7 +1969,7 @@
       WrappedComponent = React__default.forwardRef(function(props, ref) {
         return React__default.createElement(
           UncontrolledComponent,
-          _extends({}, props, {
+          _extends$1({}, props, {
             innerRef: ref,
           })
         )
@@ -1973,7 +1994,7 @@
 
       return uncontrollable(
         newComponent,
-        _extends({}, controlledValues, additions),
+        _extends$1({}, controlledValues, additions),
         nextMethods
       )
     }
@@ -2187,7 +2208,7 @@
     }
   }
   function mergeWithDefaults(localizer, culture, formatOverrides, messages) {
-    var formats = _extends({}, localizer.formats, {}, formatOverrides)
+    var formats = _extends({}, localizer.formats, formatOverrides)
 
     return _extends({}, localizer, {
       messages: messages,
@@ -2221,7 +2242,7 @@
     },
   }
   function messages(msgs) {
-    return _extends({}, defaultMessages, {}, msgs)
+    return _extends({}, defaultMessages, msgs)
   }
 
   function _assertThisInitialized(self) {
@@ -7195,8 +7216,7 @@
   }
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeIsFinite = root.isFinite,
-    nativeMin$2 = Math.min
+  var nativeMin$2 = Math.min
 
   /**
    * Creates a function like `_.round`.
@@ -7210,7 +7230,7 @@
     return function(number, precision) {
       number = toNumber(number)
       precision = precision == null ? 0 : nativeMin$2(toInteger(precision), 292)
-      if (precision && nativeIsFinite(number)) {
+      if (precision) {
         // Shift with exponential notation to avoid floating-point issues.
         // See [MDN](https://mdn.io/round#Examples) for more details.
         var pair = (toString(number) + 'e').split('e'),
@@ -8178,13 +8198,19 @@
           baseClone(subValue, bitmask, customizer, subValue, value, stack)
         )
       })
-    } else if (isMap(value)) {
+
+      return result
+    }
+
+    if (isMap(value)) {
       value.forEach(function(subValue, key) {
         result.set(
           key,
           baseClone(subValue, bitmask, customizer, key, value, stack)
         )
       })
+
+      return result
     }
 
     var keysFunc = isFull
@@ -9616,7 +9642,7 @@
       var func = isArray(collection) ? arrayAggregator : baseAggregator,
         accumulator = initializer ? initializer() : {}
 
-      return func(collection, setter, baseIteratee(iteratee), accumulator)
+      return func(collection, setter, baseIteratee(iteratee, 2), accumulator)
     }
   }
 
@@ -10015,7 +10041,6 @@
         }
         if (maxing) {
           // Handle invocations in a tight loop.
-          clearTimeout(timerId)
           timerId = setTimeout(timerExpired, wait)
           return invokeFunc(lastCallTime)
         }
@@ -10162,7 +10187,7 @@
   }
 
   /**
-   * Gets the value at `key`, unless `key` is "__proto__" or "constructor".
+   * Gets the value at `key`, unless `key` is "__proto__".
    *
    * @private
    * @param {Object} object The object to query.
@@ -10170,10 +10195,6 @@
    * @returns {*} Returns the property value.
    */
   function safeGet(object, key) {
-    if (key === 'constructor' && typeof object[key] === 'function') {
-      return
-    }
-
     if (key == '__proto__') {
       return
     }
@@ -10305,8 +10326,8 @@
     baseFor(
       source,
       function(srcValue, key) {
-        stack || (stack = new Stack())
         if (isObject(srcValue)) {
+          stack || (stack = new Stack())
           baseMergeDeep(
             object,
             source,
@@ -10651,7 +10672,7 @@
       ? baseDifference(
           array,
           baseFlatten(values, 1, isArrayLikeObject, true),
-          baseIteratee(iteratee)
+          baseIteratee(iteratee, 2)
         )
       : []
   })
@@ -10844,7 +10865,7 @@
    */
   function dropRightWhile(array, predicate) {
     return array && array.length
-      ? baseWhile(array, baseIteratee(predicate), true, true)
+      ? baseWhile(array, baseIteratee(predicate, 3), true, true)
       : []
   }
 
@@ -10885,7 +10906,7 @@
    */
   function dropWhile(array, predicate) {
     return array && array.length
-      ? baseWhile(array, baseIteratee(predicate), true)
+      ? baseWhile(array, baseIteratee(predicate, 3), true)
       : []
   }
 
@@ -11332,7 +11353,7 @@
     if (guard && isIterateeCall(collection, predicate, guard)) {
       predicate = undefined
     }
-    return func(collection, baseIteratee(predicate))
+    return func(collection, baseIteratee(predicate, 3))
   }
 
   /** Used as references for the maximum length and index of an array. */
@@ -11499,7 +11520,7 @@
    */
   function filter(collection, predicate) {
     var func = isArray(collection) ? arrayFilter : baseFilter
-    return func(collection, baseIteratee(predicate))
+    return func(collection, baseIteratee(predicate, 3))
   }
 
   /**
@@ -11513,7 +11534,7 @@
     return function(collection, predicate, fromIndex) {
       var iterable = Object(collection)
       if (!isArrayLike(collection)) {
-        var iteratee = baseIteratee(predicate)
+        var iteratee = baseIteratee(predicate, 3)
         collection = keys(collection)
         predicate = function(key) {
           return iteratee(iterable[key], key, iterable)
@@ -11573,7 +11594,7 @@
     if (index < 0) {
       index = nativeMax$6(length + index, 0)
     }
-    return baseFindIndex(array, baseIteratee(predicate), index)
+    return baseFindIndex(array, baseIteratee(predicate, 3), index)
   }
 
   /**
@@ -11672,7 +11693,7 @@
    * // => 'barney'
    */
   function findKey(object, predicate) {
-    return baseFindKey(object, baseIteratee(predicate), baseForOwn)
+    return baseFindKey(object, baseIteratee(predicate, 3), baseForOwn)
   }
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -11727,7 +11748,7 @@
           ? nativeMax$7(length + index, 0)
           : nativeMin$4(index, length - 1)
     }
-    return baseFindIndex(array, baseIteratee(predicate), index, true)
+    return baseFindIndex(array, baseIteratee(predicate, 3), index, true)
   }
 
   /**
@@ -11787,7 +11808,7 @@
    * // => 'pebbles'
    */
   function findLastKey(object, predicate) {
-    return baseFindKey(object, baseIteratee(predicate), baseForOwnRight)
+    return baseFindKey(object, baseIteratee(predicate, 3), baseForOwnRight)
   }
 
   /**
@@ -11874,7 +11895,7 @@
    */
   function map(collection, iteratee) {
     var func = isArray(collection) ? arrayMap : baseMap
-    return func(collection, baseIteratee(iteratee))
+    return func(collection, baseIteratee(iteratee, 3))
   }
 
   /**
@@ -12952,7 +12973,7 @@
       mapped.pop()
     }
     return mapped.length && mapped[0] === arrays[0]
-      ? baseIntersection(mapped, baseIteratee(iteratee))
+      ? baseIntersection(mapped, baseIteratee(iteratee, 2))
       : []
   })
 
@@ -13462,7 +13483,7 @@
   }
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeIsFinite$1 = root.isFinite
+  var nativeIsFinite = root.isFinite
 
   /**
    * Checks if `value` is a finite primitive number.
@@ -13491,7 +13512,7 @@
    * // => false
    */
   function isFinite$1(value) {
-    return typeof value == 'number' && nativeIsFinite$1(value)
+    return typeof value == 'number' && nativeIsFinite(value)
   }
 
   /**
@@ -14227,7 +14248,7 @@
    */
   function mapKeys(object, iteratee) {
     var result = {}
-    iteratee = baseIteratee(iteratee)
+    iteratee = baseIteratee(iteratee, 3)
 
     baseForOwn(object, function(value, key, object) {
       baseAssignValue(result, iteratee(value, key, object), value)
@@ -14265,7 +14286,7 @@
    */
   function mapValues(object, iteratee) {
     var result = {}
-    iteratee = baseIteratee(iteratee)
+    iteratee = baseIteratee(iteratee, 3)
 
     baseForOwn(object, function(value, key, object) {
       baseAssignValue(result, key, iteratee(value, key, object))
@@ -14421,7 +14442,7 @@
    */
   function maxBy(array, iteratee) {
     return array && array.length
-      ? baseExtremum(array, baseIteratee(iteratee), baseGt)
+      ? baseExtremum(array, baseIteratee(iteratee, 2), baseGt)
       : undefined
   }
 
@@ -14507,7 +14528,7 @@
    * // => 5
    */
   function meanBy(array, iteratee) {
-    return baseMean(array, baseIteratee(iteratee))
+    return baseMean(array, baseIteratee(iteratee, 2))
   }
 
   /**
@@ -14653,7 +14674,7 @@
    */
   function minBy(array, iteratee) {
     return array && array.length
-      ? baseExtremum(array, baseIteratee(iteratee), baseLt)
+      ? baseExtremum(array, baseIteratee(iteratee, 2), baseLt)
       : undefined
   }
 
@@ -16187,7 +16208,7 @@
    */
   function pullAllBy(array, values, iteratee) {
     return array && array.length && values && values.length
-      ? basePullAll(array, values, baseIteratee(iteratee))
+      ? basePullAll(array, values, baseIteratee(iteratee, 2))
       : array
   }
 
@@ -16626,7 +16647,7 @@
 
     return func(
       collection,
-      baseIteratee(iteratee),
+      baseIteratee(iteratee, 4),
       accumulator,
       initAccum,
       baseEach
@@ -16684,7 +16705,7 @@
 
     return func(
       collection,
-      baseIteratee(iteratee),
+      baseIteratee(iteratee, 4),
       accumulator,
       initAccum,
       baseEachRight
@@ -16727,7 +16748,7 @@
    */
   function reject(collection, predicate) {
     var func = isArray(collection) ? arrayFilter : baseFilter
-    return func(collection, negate(baseIteratee(predicate)))
+    return func(collection, negate(baseIteratee(predicate, 3)))
   }
 
   /**
@@ -16767,7 +16788,7 @@
       indexes = [],
       length = array.length
 
-    predicate = baseIteratee(predicate)
+    predicate = baseIteratee(predicate, 3)
     while (++index < length) {
       var value = array[index]
       if (predicate(value, index, array)) {
@@ -17359,7 +17380,7 @@
     if (guard && isIterateeCall(collection, predicate, guard)) {
       predicate = undefined
     }
-    return func(collection, baseIteratee(predicate))
+    return func(collection, baseIteratee(predicate, 3))
   }
 
   /**
@@ -17563,7 +17584,7 @@
    * // => 0
    */
   function sortedIndexBy(array, value, iteratee) {
-    return baseSortedIndexBy(array, value, baseIteratee(iteratee))
+    return baseSortedIndexBy(array, value, baseIteratee(iteratee, 2))
   }
 
   /**
@@ -17641,7 +17662,7 @@
    * // => 1
    */
   function sortedLastIndexBy(array, value, iteratee) {
-    return baseSortedIndexBy(array, value, baseIteratee(iteratee), true)
+    return baseSortedIndexBy(array, value, baseIteratee(iteratee, 2), true)
   }
 
   /**
@@ -17735,7 +17756,7 @@
    */
   function sortedUniqBy(array, iteratee) {
     return array && array.length
-      ? baseSortedUniq(array, baseIteratee(iteratee))
+      ? baseSortedUniq(array, baseIteratee(iteratee, 2))
       : []
   }
 
@@ -18017,7 +18038,7 @@
    * // => 20
    */
   function sumBy(array, iteratee) {
-    return array && array.length ? baseSum(array, baseIteratee(iteratee)) : 0
+    return array && array.length ? baseSum(array, baseIteratee(iteratee, 2)) : 0
   }
 
   /**
@@ -18144,7 +18165,7 @@
    */
   function takeRightWhile(array, predicate) {
     return array && array.length
-      ? baseWhile(array, baseIteratee(predicate), false, true)
+      ? baseWhile(array, baseIteratee(predicate, 3), false, true)
       : []
   }
 
@@ -18185,7 +18206,7 @@
    */
   function takeWhile(array, predicate) {
     return array && array.length
-      ? baseWhile(array, baseIteratee(predicate))
+      ? baseWhile(array, baseIteratee(predicate, 3))
       : []
   }
 
@@ -18351,12 +18372,6 @@
   /** Used to match unescaped characters in compiled string literals. */
   var reUnescapedString = /['\n\r\u2028\u2029\\]/g
 
-  /** Used for built-in method references. */
-  var objectProto$r = Object.prototype
-
-  /** Used to check objects for own properties. */
-  var hasOwnProperty$o = objectProto$r.hasOwnProperty
-
   /**
    * Creates a compiled template function that can interpolate data properties
    * in "interpolate" delimiters, HTML-escape interpolated data properties in
@@ -18503,14 +18518,8 @@
     )
 
     // Use a sourceURL for easier debugging.
-    // The sourceURL gets injected into the source that's eval-ed, so be careful
-    // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-    // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
-    var sourceURL = hasOwnProperty$o.call(options, 'sourceURL')
-      ? '//# sourceURL=' +
-        (options.sourceURL + '').replace(/[\r\n]/g, ' ') +
-        '\n'
-      : ''
+    var sourceURL =
+      'sourceURL' in options ? '//# sourceURL=' + options.sourceURL + '\n' : ''
 
     string.replace(reDelimiters, function(
       match,
@@ -18551,10 +18560,7 @@
 
     // If `variable` is not specified wrap a with-statement around the generated
     // code to add the data object to the top of the scope chain.
-    // Like with sourceURL, we take care to not check the option's prototype,
-    // as this configuration is a code injection vector.
-    var variable =
-      hasOwnProperty$o.call(options, 'variable') && options.variable
+    var variable = options.variable
     if (!variable) {
       source = 'with (obj) {\n' + source + '\n}\n'
     }
@@ -18942,7 +18948,7 @@
     var isArr = isArray(object),
       isArrLike = isArr || isBuffer(object) || isTypedArray(object)
 
-    iteratee = baseIteratee(iteratee)
+    iteratee = baseIteratee(iteratee, 4)
     if (accumulator == null) {
       var Ctor = object && object.constructor
       if (isArrLike) {
@@ -19407,7 +19413,7 @@
     }
     return baseUniq(
       baseFlatten(arrays, 1, isArrayLikeObject, true),
-      baseIteratee(iteratee)
+      baseIteratee(iteratee, 2)
     )
   })
 
@@ -19488,7 +19494,9 @@
    * // => [{ 'x': 1 }, { 'x': 2 }]
    */
   function uniqBy(array, iteratee) {
-    return array && array.length ? baseUniq(array, baseIteratee(iteratee)) : []
+    return array && array.length
+      ? baseUniq(array, baseIteratee(iteratee, 2))
+      : []
   }
 
   /**
@@ -20027,7 +20035,7 @@
     }
     return baseXor(
       arrayFilter(arrays, isArrayLikeObject),
-      baseIteratee(iteratee)
+      baseIteratee(iteratee, 2)
     )
   })
 
@@ -20664,14 +20672,14 @@
    * @license
    * Lodash (Custom Build) <https://lodash.com/>
    * Build: `lodash modularize exports="es" -o ./`
-   * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+   * Copyright JS Foundation and other contributors <https://js.foundation/>
    * Released under MIT license <https://lodash.com/license>
    * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
    * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
    */
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15'
+  var VERSION = '4.17.11'
 
   /** Used to compose bitmasks for function metadata. */
   var WRAP_BIND_KEY_FLAG$6 = 2
@@ -20685,10 +20693,10 @@
 
   /** Used for built-in method references. */
   var arrayProto$5 = Array.prototype,
-    objectProto$s = Object.prototype
+    objectProto$r = Object.prototype
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty$p = objectProto$s.hasOwnProperty
+  var hasOwnProperty$o = objectProto$r.hasOwnProperty
 
   /** Built-in value references. */
   var symIterator$1 = Symbol$1 ? Symbol$1.iterator : undefined
@@ -21034,7 +21042,7 @@
     (function() {
       var source = {}
       baseForOwn(lodash, function(func, methodName) {
-        if (!hasOwnProperty$p.call(lodash.prototype, methodName)) {
+        if (!hasOwnProperty$o.call(lodash.prototype, methodName)) {
           source[methodName] = func
         }
       })
@@ -21095,7 +21103,7 @@
     LazyWrapper.prototype[methodName] = function(iteratee) {
       var result = this.clone()
       result.__iteratees__.push({
-        iteratee: baseIteratee(iteratee),
+        iteratee: baseIteratee(iteratee, 3),
         type: type,
       })
       result.__filtered__ = result.__filtered__ || isFilter
@@ -21260,11 +21268,10 @@
   baseForOwn(LazyWrapper.prototype, function(func, methodName) {
     var lodashFunc = lodash[methodName]
     if (lodashFunc) {
-      var key = lodashFunc.name + ''
-      if (!hasOwnProperty$p.call(realNames, key)) {
-        realNames[key] = []
-      }
-      realNames[key].push({ name: methodName, func: lodashFunc })
+      var key = lodashFunc.name + '',
+        names = realNames[key] || (realNames[key] = [])
+
+      names.push({ name: methodName, func: lodashFunc })
     }
   })
 
@@ -21296,6 +21303,16 @@
   if (symIterator$1) {
     lodash.prototype[symIterator$1] = seq.toIterator
   }
+
+  /**
+   * @license
+   * Lodash (Custom Build) <https://lodash.com/>
+   * Build: `lodash modularize exports="es" -o ./`
+   * Copyright JS Foundation and other contributors <https://js.foundation/>
+   * Released under MIT license <https://lodash.com/license>
+   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+   * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+   */
 
   var MILI = 'milliseconds',
     SECONDS = 'seconds',
@@ -21558,6 +21575,26 @@
     )
   }
 
+  function _extends$2() {
+    _extends$2 =
+      Object.assign ||
+      function(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = arguments[i]
+
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key]
+            }
+          }
+        }
+
+        return target
+      }
+
+    return _extends$2.apply(this, arguments)
+  }
+
   function ownerDocument(node) {
     return (node && node.ownerDocument) || document
   }
@@ -21732,7 +21769,7 @@
     var marginTop = String(style(node, 'marginTop') || 0)
     var marginLeft = String(style(node, 'marginLeft') || 0) // Subtract parent offsets and node margins
 
-    return _extends({}, offset$1, {
+    return _extends$2({}, offset$1, {
       top: offset$1.top - parentOffset.top - (parseInt(marginTop, 10) || 0),
       left: offset$1.left - parentOffset.left - (parseInt(marginLeft, 10) || 0),
     })
@@ -21875,7 +21912,7 @@
             'div',
             _extends({}, props, {
               tabIndex: 0,
-              style: _extends({}, userProps.style, {}, style),
+              style: _extends({}, userProps.style, style),
               className: clsx('rbc-event', className, userProps.className, {
                 'rbc-selected': selected,
                 'rbc-event-allday': showAsAllDay,
@@ -22055,7 +22092,7 @@
         return React__default.createElement(
           'div',
           {
-            style: _extends({}, this.props.style, {}, style),
+            style: _extends({}, this.props.style, style),
             className: 'rbc-overlay',
             ref: popperRef,
           },
@@ -22114,12 +22151,11 @@
         current: propTypes.Element,
       }),
     ]),
+    /**
+     * The Overlay component, of react-overlays, creates a ref that is passed to the Popup, and
+     * requires proper ref forwarding to be used without error
+     */
   }
-  /**
-   * The Overlay component, of react-overlays, creates a ref that is passed to the Popup, and
-   * requires proper ref forwarding to be used without error
-   */
-
   var Popup$1 = React__default.forwardRef(function(props, ref) {
     return React__default.createElement(
       Popup,
@@ -22131,6 +22167,41 @@
       )
     )
   })
+
+  function _extends$3() {
+    _extends$3 =
+      Object.assign ||
+      function(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = arguments[i]
+
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key]
+            }
+          }
+        }
+
+        return target
+      }
+
+    return _extends$3.apply(this, arguments)
+  }
+
+  function _objectWithoutPropertiesLoose$2(source, excluded) {
+    if (source == null) return {}
+    var target = {}
+    var sourceKeys = Object.keys(source)
+    var key, i
+
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i]
+      if (excluded.indexOf(key) >= 0) continue
+      target[key] = source[key]
+    }
+
+    return target
+  }
 
   /**!
    * @fileOverview Kickass library to create and place poppers near their reference elements.
@@ -22567,7 +22638,7 @@
     return obj
   }
 
-  var _extends$1 =
+  var _extends$4 =
     Object.assign ||
     function(target) {
       for (var i = 1; i < arguments.length; i++) {
@@ -22591,7 +22662,7 @@
    * @returns {Object} ClientRect like output
    */
   function getClientRect(offsets) {
-    return _extends$1({}, offsets, {
+    return _extends$4({}, offsets, {
       right: offsets.left + offsets.width,
       bottom: offsets.top + offsets.height,
     })
@@ -22910,7 +22981,7 @@
 
     var sortedAreas = Object.keys(rects)
       .map(function(key) {
-        return _extends$1(
+        return _extends$4(
           {
             key: key,
           },
@@ -23652,9 +23723,9 @@
     }
 
     // Update `data` attributes, styles and arrowStyles
-    data.attributes = _extends$1({}, attributes, data.attributes)
-    data.styles = _extends$1({}, styles, data.styles)
-    data.arrowStyles = _extends$1({}, data.offsets.arrow, data.arrowStyles)
+    data.attributes = _extends$4({}, attributes, data.attributes)
+    data.styles = _extends$4({}, styles, data.styles)
+    data.arrowStyles = _extends$4({}, data.offsets.arrow, data.arrowStyles)
 
     return data
   }
@@ -23785,11 +23856,10 @@
     sideValue = Math.max(Math.min(popper[len] - arrowElementSize, sideValue), 0)
 
     data.arrowElement = arrowElement
-    data.offsets.arrow =
-      ((_data$offsets$arrow = {}),
-      defineProperty$1(_data$offsets$arrow, side, Math.round(sideValue)),
-      defineProperty$1(_data$offsets$arrow, altSide, ''),
-      _data$offsets$arrow)
+    data.offsets.arrow = ((_data$offsets$arrow = {}),
+    defineProperty$1(_data$offsets$arrow, side, Math.round(sideValue)),
+    defineProperty$1(_data$offsets$arrow, altSide, ''),
+    _data$offsets$arrow)
 
     return data
   }
@@ -24007,7 +24077,7 @@
 
         // this object contains `position`, we want to preserve it along with
         // any additional property we may add in the future
-        data.offsets.popper = _extends$1(
+        data.offsets.popper = _extends$4(
           {},
           data.offsets.popper,
           getPopperOffsets(
@@ -24334,7 +24404,7 @@
     order.forEach(function(placement) {
       var side =
         ['left', 'top'].indexOf(placement) !== -1 ? 'primary' : 'secondary'
-      popper = _extends$1({}, popper, check[side](placement))
+      popper = _extends$4({}, popper, check[side](placement))
     })
 
     data.offsets.popper = popper
@@ -24373,7 +24443,7 @@
         ),
       }
 
-      data.offsets.popper = _extends$1({}, popper, shiftOffsets[shiftvariation])
+      data.offsets.popper = _extends$4({}, popper, shiftOffsets[shiftvariation])
     }
 
     return data
@@ -24915,7 +24985,7 @@
       this.update = debounce$1(this.update.bind(this))
 
       // with {} we create a new object with the options inside it
-      this.options = _extends$1({}, Popper.Defaults, options)
+      this.options = _extends$4({}, Popper.Defaults, options)
 
       // init state
       this.state = {
@@ -24931,9 +25001,9 @@
       // Deep merge modifiers options
       this.options.modifiers = {}
       Object.keys(
-        _extends$1({}, Popper.Defaults.modifiers, options.modifiers)
+        _extends$4({}, Popper.Defaults.modifiers, options.modifiers)
       ).forEach(function(name) {
-        _this.options.modifiers[name] = _extends$1(
+        _this.options.modifiers[name] = _extends$4(
           {},
           Popper.Defaults.modifiers[name] || {},
           options.modifiers ? options.modifiers[name] : {}
@@ -24943,7 +25013,7 @@
       // Refactoring modifiers' list (Object => Array)
       this.modifiers = Object.keys(this.options.modifiers)
         .map(function(name) {
-          return _extends$1(
+          return _extends$4(
             {
               name: name,
             },
@@ -25213,7 +25283,7 @@
 
         var arrow =
           modifiers.arrow &&
-          _extends({}, modifiers.arrow, {
+          _extends$3({}, modifiers.arrow, {
             element: modifiers.arrow.element,
           })
 
@@ -25223,7 +25293,7 @@
           {
             placement: placement,
             positionFixed: positionFixed,
-            modifiers: _extends({}, modifiers, {
+            modifiers: _extends$3({}, modifiers, {
               arrow: arrow,
               applyStyle: {
                 enabled: false,
@@ -25234,7 +25304,7 @@
                 fn: function fn(data) {
                   setState({
                     scheduleUpdate: scheduleUpdate,
-                    styles: _extends(
+                    styles: _extends$3(
                       {
                         position: data.offsets.popper.position,
                       },
@@ -25269,76 +25339,168 @@
     return state
   }
 
-  /* eslint-disable no-return-assign */
-  var optionsSupported = false
-  var onceSupported = false
-
-  try {
-    var options = {
-      get passive() {
-        return (optionsSupported = true)
-      },
-
-      get once() {
-        // eslint-disable-next-line no-multi-assign
-        return (onceSupported = optionsSupported = true)
-      },
-    }
-
-    if (canUseDOM) {
-      window.addEventListener('test', options, options)
-      window.removeEventListener('test', options, true)
-    }
-  } catch (e) {
-    /* */
-  }
-
-  /**
-   * An `addEventListener` ponyfill, supports the `once` option
-   */
-  function addEventListener(node, eventName, handler, options) {
-    if (options && typeof options !== 'boolean' && !onceSupported) {
-      var once = options.once,
-        capture = options.capture
-      var wrappedHandler = handler
-
-      if (!onceSupported && once) {
-        wrappedHandler =
-          handler.__once ||
-          function onceHandler(event) {
-            this.removeEventListener(eventName, onceHandler, capture)
-            handler.call(this, event)
+  var interopRequireDefault = createCommonjsModule(function(module) {
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule
+        ? obj
+        : {
+            default: obj,
           }
+    }
 
-        handler.__once = wrappedHandler
+    module.exports = _interopRequireDefault
+  })
+
+  unwrapExports(interopRequireDefault)
+
+  var inDOM = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _default = !!(
+      typeof window !== 'undefined' &&
+      window.document &&
+      window.document.createElement
+    )
+
+    exports.default = _default
+    module.exports = exports['default']
+  })
+
+  unwrapExports(inDOM)
+
+  var contains$1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var _default = (function() {
+      // HTML DOM and SVG DOM may have different support levels,
+      // so we need to check on context instead of a document root element.
+      return _inDOM.default
+        ? function(context, node) {
+            if (context.contains) {
+              return context.contains(node)
+            } else if (context.compareDocumentPosition) {
+              return (
+                context === node ||
+                !!(context.compareDocumentPosition(node) & 16)
+              )
+            } else {
+              return fallback(context, node)
+            }
+          }
+        : fallback
+    })()
+
+    exports.default = _default
+
+    function fallback(context, node) {
+      if (node)
+        do {
+          if (node === context) return true
+        } while ((node = node.parentNode))
+      return false
+    }
+
+    module.exports = exports['default']
+  })
+
+  var contains$2 = unwrapExports(contains$1)
+
+  var on_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var on = function on() {}
+
+    if (_inDOM.default) {
+      on = (function() {
+        if (document.addEventListener)
+          return function(node, eventName, handler, capture) {
+            return node.addEventListener(eventName, handler, capture || false)
+          }
+        else if (document.attachEvent)
+          return function(node, eventName, handler) {
+            return node.attachEvent('on' + eventName, function(e) {
+              e = e || window.event
+              e.target = e.target || e.srcElement
+              e.currentTarget = node
+              handler.call(node, e)
+            })
+          }
+      })()
+    }
+
+    var _default = on
+    exports.default = _default
+    module.exports = exports['default']
+  })
+
+  unwrapExports(on_1)
+
+  var off_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var off = function off() {}
+
+    if (_inDOM.default) {
+      off = (function() {
+        if (document.addEventListener)
+          return function(node, eventName, handler, capture) {
+            return node.removeEventListener(
+              eventName,
+              handler,
+              capture || false
+            )
+          }
+        else if (document.attachEvent)
+          return function(node, eventName, handler) {
+            return node.detachEvent('on' + eventName, handler)
+          }
+      })()
+    }
+
+    var _default = off
+    exports.default = _default
+    module.exports = exports['default']
+  })
+
+  unwrapExports(off_1)
+
+  var listen_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = void 0
+
+    var _inDOM = interopRequireDefault(inDOM)
+
+    var _on = interopRequireDefault(on_1)
+
+    var _off = interopRequireDefault(off_1)
+
+    var listen = function listen() {}
+
+    if (_inDOM.default) {
+      listen = function listen(node, eventName, handler, capture) {
+        ;(0, _on.default)(node, eventName, handler, capture)
+        return function() {
+          ;(0, _off.default)(node, eventName, handler, capture)
+        }
       }
-
-      node.addEventListener(
-        eventName,
-        wrappedHandler,
-        optionsSupported ? options : capture
-      )
     }
 
-    node.addEventListener(eventName, handler, options)
-  }
+    var _default = listen
+    exports.default = _default
+    module.exports = exports['default']
+  })
 
-  function removeEventListener(node, eventName, handler, options) {
-    var capture =
-      options && typeof options !== 'boolean' ? options.capture : options
-    node.removeEventListener(eventName, handler, capture)
-
-    if (handler.__once) {
-      node.removeEventListener(eventName, handler.__once, capture)
-    }
-  }
-
-  function listen(node, eventName, handler, options) {
-    addEventListener(node, eventName, handler, options)
-    return function() {
-      removeEventListener(node, eventName, handler, options)
-    }
-  }
+  var listen = unwrapExports(listen_1)
 
   /**
    * Creates a `Ref` whose value is updated in an effect, ensuring the most recent
@@ -25415,7 +25577,7 @@
           !currentTarget ||
           isModifiedEvent(e) ||
           !isLeftClickEvent(e) ||
-          contains(currentTarget, e.target)
+          contains$2(currentTarget, e.target)
       },
       [ref]
     )
@@ -25473,9 +25635,21 @@
     )
   }
 
+  var ownerDocument_1 = createCommonjsModule(function(module, exports) {
+    exports.__esModule = true
+    exports.default = ownerDocument
+
+    function ownerDocument(node) {
+      return (node && node.ownerDocument) || document
+    }
+
+    module.exports = exports['default']
+  })
+
+  var ownerDocument$1 = unwrapExports(ownerDocument_1)
+
   var resolveRef = function resolveRef(ref) {
-    if (typeof document === 'undefined') return undefined
-    if (ref == null) return ownerDocument().body
+    if (ref == null) return ownerDocument$1().body
     if (typeof ref === 'function') ref = ref()
     if (ref && ref.current) ref = ref.current
     if (ref && ref.nodeType) return ref
@@ -25550,21 +25724,21 @@
     var _usePopper = usePopper(
         target,
         rootElement,
-        _extends({}, popperConfig, {
+        _extends$3({}, popperConfig, {
           placement: placement || 'bottom',
           enableEvents: props.show,
-          modifiers: _extends({}, modifiers, {
-            preventOverflow: _extends(
+          modifiers: _extends$3({}, modifiers, {
+            preventOverflow: _extends$3(
               {
                 padding: containerPadding || 5,
               },
               modifiers.preventOverflow
             ),
-            arrow: _extends({}, modifiers.arrow, {
+            arrow: _extends$3({}, modifiers.arrow, {
               enabled: !!arrowElement,
               element: arrowElement,
             }),
-            flip: _extends(
+            flip: _extends$3(
               {
                 enabled: !!flip,
               },
@@ -25575,7 +25749,7 @@
       ),
       styles = _usePopper.styles,
       arrowStyles = _usePopper.arrowStyles,
-      popper = _objectWithoutPropertiesLoose(_usePopper, [
+      popper = _objectWithoutPropertiesLoose$2(_usePopper, [
         'styles',
         'arrowStyles',
       ])
@@ -25606,7 +25780,7 @@
     }
 
     var child = props.children(
-      _extends({}, popper, {
+      _extends$3({}, popper, {
         show: props.show,
         props: {
           style: styles,
@@ -25835,12 +26009,83 @@
     return null
   }
 
+  /* eslint-disable no-return-assign */
+  var optionsSupported = false
+  var onceSupported = false
+
+  try {
+    var options = {
+      get passive() {
+        return (optionsSupported = true)
+      },
+
+      get once() {
+        // eslint-disable-next-line no-multi-assign
+        return (onceSupported = optionsSupported = true)
+      },
+    }
+
+    if (canUseDOM) {
+      window.addEventListener('test', options, options)
+      window.removeEventListener('test', options, true)
+    }
+  } catch (e) {
+    /* */
+  }
+
+  /**
+   * An `addEventListener` ponyfill, supports the `once` option
+   */
+  function addEventListener(node, eventName, handler, options) {
+    if (options && typeof options !== 'boolean' && !onceSupported) {
+      var once = options.once,
+        capture = options.capture
+      var wrappedHandler = handler
+
+      if (!onceSupported && once) {
+        wrappedHandler =
+          handler.__once ||
+          function onceHandler(event) {
+            this.removeEventListener(eventName, onceHandler, capture)
+            handler.call(this, event)
+          }
+
+        handler.__once = wrappedHandler
+      }
+
+      node.addEventListener(
+        eventName,
+        wrappedHandler,
+        optionsSupported ? options : capture
+      )
+    }
+
+    node.addEventListener(eventName, handler, options)
+  }
+
+  function removeEventListener(node, eventName, handler, options) {
+    var capture =
+      options && typeof options !== 'boolean' ? options.capture : options
+    node.removeEventListener(eventName, handler, capture)
+
+    if (handler.__once) {
+      node.removeEventListener(eventName, handler.__once, capture)
+    }
+  }
+
+  function listen$1(node, eventName, handler, options) {
+    addEventListener(node, eventName, handler, options)
+    return function() {
+      removeEventListener(node, eventName, handler, options)
+    }
+  }
+
   function addEventListener$1(type, handler, target) {
     if (target === void 0) {
       target = document
     }
 
-    return listen(target, type, handler, {
+    return listen$1(target, type, handler, {
       passive: false,
     })
   }
@@ -27005,7 +27250,7 @@
     var calledOnce = false
 
     var isNewArgEqualToLast = function isNewArgEqualToLast(newArg, index) {
-      return isEqual(newArg, lastArgs[index])
+      return isEqual(newArg, lastArgs[index], index)
     }
 
     var result = function result() {
@@ -27077,7 +27322,7 @@
         slots: range.length,
         clone: function clone(args) {
           var metrics = getSlotMetrics()
-          return metrics(_extends({}, options, {}, args))
+          return metrics(_extends({}, options, args))
         },
         getDateForSlot: function getDateForSlot(slotNumber) {
           return range[slotNumber]
@@ -27449,8 +27694,8 @@
     return Constructor
   }
 
-  function _extends$2() {
-    _extends$2 =
+  function _extends$5() {
+    _extends$5 =
       Object.assign ||
       function(target) {
         for (var i = 1; i < arguments.length; i++) {
@@ -27466,16 +27711,16 @@
         return target
       }
 
-    return _extends$2.apply(this, arguments)
+    return _extends$5.apply(this, arguments)
   }
 
-  function _inheritsLoose$1(subClass, superClass) {
+  function _inheritsLoose$2(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype)
     subClass.prototype.constructor = subClass
     subClass.__proto__ = superClass
   }
 
-  function _objectWithoutPropertiesLoose$1(source, excluded) {
+  function _objectWithoutPropertiesLoose$3(source, excluded) {
     if (source == null) return {}
     var target = {}
     var sourceKeys = Object.keys(source)
@@ -27596,7 +27841,7 @@
       scrollY = _event$currentTarget.scrollY,
       scrollLeft = _event$currentTarget.scrollLeft,
       scrollTop = _event$currentTarget.scrollTop
-    return _extends$2(
+    return _extends$5(
       {
         xy: [scrollX || scrollLeft || 0, scrollY || scrollTop || 0],
       },
@@ -27614,7 +27859,7 @@
       deltaY = event.deltaY //TODO implement polyfill ?
     // https://developer.mozilla.org/en-US/docs/Web/Events/wheel#Polyfill
 
-    return _extends$2(
+    return _extends$5(
       {
         xy: [deltaX, deltaY],
       },
@@ -27643,7 +27888,7 @@
       clientY = _ref2.clientY
 
     var down = (touchEvents && touchEvents.length > 0) || buttons > 0
-    return _extends$2(
+    return _extends$5(
       {
         xy: [clientX, clientY],
         touches: (touchEvents && touchEvents.length) || 0,
@@ -27668,7 +27913,7 @@
       (touches[1].clientX + touches[0].clientX) / 2,
       (touches[1].clientY + touches[0].clientY) / 2,
     ]
-    return _extends$2(
+    return _extends$5(
       {
         da: da,
         origin: origin,
@@ -27874,19 +28119,19 @@
     },
     move:
       /*#__PURE__*/
-      _extends$2({}, initialCommon, {}, initialCoordinates),
+      _extends$5({}, initialCommon, {}, initialCoordinates),
     drag:
       /*#__PURE__*/
-      _extends$2({}, initialCommon, {}, initialCoordinates),
+      _extends$5({}, initialCommon, {}, initialCoordinates),
     scroll:
       /*#__PURE__*/
-      _extends$2({}, initialCommon, {}, initialCoordinates),
+      _extends$5({}, initialCommon, {}, initialCoordinates),
     wheel:
       /*#__PURE__*/
-      _extends$2({}, initialCommon, {}, initialCoordinates),
+      _extends$5({}, initialCommon, {}, initialCoordinates),
     pinch:
       /*#__PURE__*/
-      _extends$2({}, initialCommon, {}, initialDistanceAngle),
+      _extends$5({}, initialCommon, {}, initialDistanceAngle),
   } // generic end state for all gestures
 
   var genericEndState = {
@@ -27992,8 +28237,8 @@
           var startState = _this.getStartState(values, event)
 
           _this.updateState(
-            _extends$2({}, _this.sharedStartState, {}, sharedPayload),
-            _extends$2({}, startState, {}, gesturePayload, {}, payload)
+            _extends$5({}, _this.sharedStartState, {}, sharedPayload),
+            _extends$5({}, startState, {}, gesturePayload, {}, payload)
           )
 
           _this.fireGestureHandler(GestureFlag.OnStart)
@@ -28008,8 +28253,8 @@
           var kinematics = _this.getKinematics(values, event)
 
           _this.updateState(
-            _extends$2({}, sharedPayload),
-            _extends$2(
+            _extends$5({}, sharedPayload),
+            _extends$5(
               {
                 first: false,
               },
@@ -28031,7 +28276,7 @@
 
           _this.updateState(
             _this.sharedEndState,
-            _extends$2(
+            _extends$5(
               {
                 event: event,
               },
@@ -28098,7 +28343,7 @@
   var CoordinatesRecognizer =
     /*#__PURE__*/
     (function(_Recognizer) {
-      _inheritsLoose$1(CoordinatesRecognizer, _Recognizer)
+      _inheritsLoose$2(CoordinatesRecognizer, _Recognizer)
 
       function CoordinatesRecognizer() {
         return _Recognizer.apply(this, arguments) || this
@@ -28154,7 +28399,7 @@
       _proto.getStartState = function getStartState(xy, event) {
         var initial = initialState[this.stateKey]
         var transform = this.getTransform(event)
-        return _extends$2({}, initial, {
+        return _extends$5({}, initial, {
           event: event,
           xy: xy,
           initial: xy,
@@ -28174,7 +28419,7 @@
   var DragRecognizer =
     /*#__PURE__*/
     (function(_CoordinatesRecognize) {
-      _inheritsLoose$1(DragRecognizer, _CoordinatesRecognize)
+      _inheritsLoose$2(DragRecognizer, _CoordinatesRecognize)
 
       function DragRecognizer(controller, args) {
         var _this
@@ -28250,7 +28495,7 @@
       _proto.getPayloadFromEvent = function getPayloadFromEvent(event) {
         var _getPointerEventData3 = getPointerEventData(event),
           xy = _getPointerEventData3.xy,
-          sharedPayload = _objectWithoutPropertiesLoose$1(
+          sharedPayload = _objectWithoutPropertiesLoose$3(
             _getPointerEventData3,
             ['xy']
           )
@@ -28271,7 +28516,7 @@
   var ScrollRecognizer =
     /*#__PURE__*/
     (function(_CoordinatesRecognize) {
-      _inheritsLoose$1(ScrollRecognizer, _CoordinatesRecognize)
+      _inheritsLoose$2(ScrollRecognizer, _CoordinatesRecognize)
 
       function ScrollRecognizer(controller, args) {
         var _this
@@ -28294,7 +28539,7 @@
       _proto.getPayloadFromEvent = function getPayloadFromEvent(event) {
         var _getScrollEventData = getScrollEventData(event),
           xy = _getScrollEventData.xy,
-          sharedPayload = _objectWithoutPropertiesLoose$1(_getScrollEventData, [
+          sharedPayload = _objectWithoutPropertiesLoose$3(_getScrollEventData, [
             'xy',
           ])
 
@@ -28314,7 +28559,7 @@
   var WheelRecognizer =
     /*#__PURE__*/
     (function(_CoordinatesRecognize) {
-      _inheritsLoose$1(WheelRecognizer, _CoordinatesRecognize)
+      _inheritsLoose$2(WheelRecognizer, _CoordinatesRecognize)
 
       function WheelRecognizer(controller, args) {
         var _this
@@ -28346,7 +28591,7 @@
 
         var _getWheelEventData = getWheelEventData(event),
           xy = _getWheelEventData.xy,
-          sharedPayload = _objectWithoutPropertiesLoose$1(_getWheelEventData, [
+          sharedPayload = _objectWithoutPropertiesLoose$3(_getWheelEventData, [
             'xy',
           ])
 
@@ -28367,7 +28612,7 @@
   var MoveRecognizer =
     /*#__PURE__*/
     (function(_CoordinatesRecognize) {
-      _inheritsLoose$1(MoveRecognizer, _CoordinatesRecognize)
+      _inheritsLoose$2(MoveRecognizer, _CoordinatesRecognize)
 
       function MoveRecognizer(controller, args) {
         var _this
@@ -28390,7 +28635,7 @@
       _proto.getPayloadFromEvent = function getPayloadFromEvent(event) {
         var _getPointerEventData = getPointerEventData(event),
           xy = _getPointerEventData.xy,
-          sharedPayload = _objectWithoutPropertiesLoose$1(
+          sharedPayload = _objectWithoutPropertiesLoose$3(
             _getPointerEventData,
             ['xy']
           )
@@ -28411,7 +28656,7 @@
   var HoverRecognizer =
     /*#__PURE__*/
     (function(_CoordinatesRecognize) {
-      _inheritsLoose$1(HoverRecognizer, _CoordinatesRecognize)
+      _inheritsLoose$2(HoverRecognizer, _CoordinatesRecognize)
 
       function HoverRecognizer(controller, args) {
         var _this
@@ -28427,7 +28672,7 @@
             sharedPayload = _this$getPayloadFromE.sharedPayload
 
           _this.updateState(
-            _extends$2(
+            _extends$5(
               {
                 hovering: true,
               },
@@ -28453,14 +28698,14 @@
           var kinematics = _this.getKinematics(values, event)
 
           _this.updateState(
-            _extends$2(
+            _extends$5(
               {
                 hovering: false,
                 moving: false,
               },
               sharedPayload
             ),
-            _extends$2({}, kinematics, {}, genericEndState, {
+            _extends$5({}, kinematics, {}, genericEndState, {
               velocity: 0,
               vxvy: [0, 0],
             })
@@ -28480,7 +28725,7 @@
       _proto.getPayloadFromEvent = function getPayloadFromEvent(event) {
         var _getPointerEventData = getPointerEventData(event),
           xy = _getPointerEventData.xy,
-          sharedPayload = _objectWithoutPropertiesLoose$1(
+          sharedPayload = _objectWithoutPropertiesLoose$3(
             _getPointerEventData,
             ['xy']
           )
@@ -28508,7 +28753,7 @@
   var DistanceAngleRecognizer =
     /*#__PURE__*/
     (function(_Recognizer) {
-      _inheritsLoose$1(DistanceAngleRecognizer, _Recognizer)
+      _inheritsLoose$2(DistanceAngleRecognizer, _Recognizer)
 
       function DistanceAngleRecognizer(gestureKey, controller, args) {
         var _this
@@ -28578,7 +28823,7 @@
       _proto.getStartState = function getStartState(da, event) {
         var initial = initialState[this.stateKey]
         var transform = this.getTransform(event)
-        return _extends$2({}, initial, {
+        return _extends$5({}, initial, {
           event: event,
           da: da,
           initial: da,
@@ -28599,7 +28844,7 @@
   var PinchRecognizer =
     /*#__PURE__*/
     (function(_DistanceAngleRecogni) {
-      _inheritsLoose$1(PinchRecognizer, _DistanceAngleRecogni)
+      _inheritsLoose$2(PinchRecognizer, _DistanceAngleRecogni)
 
       function PinchRecognizer(controller, args) {
         var _this
@@ -28654,7 +28899,7 @@
         var _getTwoTouchesEventDa = getTwoTouchesEventData(event),
           da = _getTwoTouchesEventDa.da,
           origin = _getTwoTouchesEventDa.origin,
-          sharedPayload = _objectWithoutPropertiesLoose$1(
+          sharedPayload = _objectWithoutPropertiesLoose$3(
             _getTwoTouchesEventDa,
             ['da', 'origin']
           )
@@ -28682,7 +28927,7 @@
   var PinchWheelRecognizer =
     /*#__PURE__*/
     (function(_DistanceAngleRecogni) {
-      _inheritsLoose$1(PinchWheelRecognizer, _DistanceAngleRecogni)
+      _inheritsLoose$2(PinchWheelRecognizer, _DistanceAngleRecogni)
 
       function PinchWheelRecognizer(controller, args) {
         var _this
@@ -28716,7 +28961,7 @@
         var _getWheelEventData = getWheelEventData(event),
           _getWheelEventData$xy = _getWheelEventData.xy,
           delta_d = _getWheelEventData$xy[1],
-          sharedPayload = _objectWithoutPropertiesLoose$1(_getWheelEventData, [
+          sharedPayload = _objectWithoutPropertiesLoose$3(_getWheelEventData, [
             'xy',
           ])
 
@@ -28743,7 +28988,7 @@
   var PinchWebKitGestureRecognizer =
     /*#__PURE__*/
     (function(_DistanceAngleRecogni) {
-      _inheritsLoose$1(PinchWebKitGestureRecognizer, _DistanceAngleRecogni)
+      _inheritsLoose$2(PinchWebKitGestureRecognizer, _DistanceAngleRecogni)
 
       function PinchWebKitGestureRecognizer(controller, args) {
         var _this
@@ -28886,13 +29131,13 @@
     this.updateState = function(sharedState, gestureState, stateKey) {
       var _extends2
 
-      _this.state = _extends$2(
+      _this.state = _extends$5(
         {},
         _this.state,
         ((_extends2 = {
-          shared: _extends$2({}, _this.state.shared, {}, sharedState),
+          shared: _extends$5({}, _this.state.shared, {}, sharedState),
         }),
-        (_extends2[stateKey] = _extends$2(
+        (_extends2[stateKey] = _extends$5(
           {},
           _this.state[stateKey],
           {},
@@ -28909,7 +29154,7 @@
         stateKey = _mappedKeys$gestureKe.stateKey,
         handlerKey = _mappedKeys$gestureKe.handlerKey
 
-      var state = _extends$2({}, _this.state.shared, {}, _this.state[stateKey])
+      var state = _extends$5({}, _this.state.shared, {}, _this.state[stateKey])
 
       if (state.event) state.event.gesture = gestureKey
 
@@ -29024,7 +29269,7 @@
     this.bind = function() {
       var domTarget = _this.config.domTarget
 
-      var genuineHandlers = _extends$2({}, _this.handlers) // cleaning before adding
+      var genuineHandlers = _extends$5({}, _this.handlers) // cleaning before adding
 
       _this.cleanOnBind()
 
@@ -29146,7 +29391,7 @@
   }
 
   function getDerivedConfig(config) {
-    var derivedConfig = _extends$2({}, defaultConfig, {}, config)
+    var derivedConfig = _extends$5({}, defaultConfig, {}, config)
 
     var domTarget = derivedConfig.domTarget
     var realDomTarget =
@@ -29162,7 +29407,7 @@
 
   var GestureWrapper = function GestureWrapper(props) {
     var _swipeBind = useGesture({
-      // onDrag: throttleHandler,
+      onDrag: throttleHandler,
       onScroll: throttleHandler,
       onWheel: throttleHandler,
     })
@@ -29176,8 +29421,9 @@
 
   var handler = function handler(_ref) {
     var wheeling = _ref.wheeling,
-      _ref$vx = _ref.vx,
-      vx = _ref$vx[0]
+      _ref$vxvy = _ref.vxvy,
+      vx = _ref$vxvy[0],
+      vy = _ref$vxvy[1]
 
     if (!wheeling) {
       if (vx <= 0) {
@@ -29185,6 +29431,14 @@
       }
 
       if (vx > 0) {
+        document.querySelector('#navigate-left').click()
+      }
+
+      if (vy <= 0) {
+        document.querySelector('#navigate-right').click()
+      }
+
+      if (vy > 0) {
         document.querySelector('#navigate-left').click()
       }
     }
@@ -29445,23 +29699,17 @@
         return React__default.createElement(
           GestureWrapper,
           {
-            className: 'xs-pt-30 xs-pb-50 ',
+            className: clsx('rbc-month-view', className),
           },
           React__default.createElement(
             'div',
             {
-              className: clsx('rbc-month-view', className),
+              className: 'rbc-row rbc-month-header',
             },
-            React__default.createElement(
-              'div',
-              {
-                className: 'rbc-row rbc-month-header',
-              },
-              this.renderHeaders(weeks[0])
-            ),
-            weeks.map(this.renderWeek),
-            this.props.popup && this.renderOverlay()
-          )
+            this.renderHeaders(weeks[0])
+          ),
+          weeks.map(this.renderWeek),
+          this.props.popup && this.renderOverlay()
         )
       }
 
@@ -32051,14 +32299,13 @@
   }
 
   var _VIEWS
-  var VIEWS =
-    ((_VIEWS = {}),
-    (_VIEWS[views.MONTH] = MonthView),
-    (_VIEWS[views.WEEK] = Week),
-    (_VIEWS[views.WORK_WEEK] = WorkWeek),
-    (_VIEWS[views.DAY] = Day),
-    (_VIEWS[views.AGENDA] = Agenda),
-    _VIEWS)
+  var VIEWS = ((_VIEWS = {}),
+  (_VIEWS[views.MONTH] = MonthView),
+  (_VIEWS[views.WEEK] = Week),
+  (_VIEWS[views.WORK_WEEK] = WorkWeek),
+  (_VIEWS[views.DAY] = Day),
+  (_VIEWS[views.AGENDA] = Agenda),
+  _VIEWS)
 
   function moveDate(View, _ref) {
     var action = _ref.action,

@@ -173,7 +173,7 @@ var DateLocalizer = function DateLocalizer(spec) {
   }
 }
 function mergeWithDefaults(localizer, culture, formatOverrides, messages) {
-  var formats = _extends({}, localizer.formats, {}, formatOverrides)
+  var formats = _extends({}, localizer.formats, formatOverrides)
 
   return _extends({}, localizer, {
     messages: messages,
@@ -207,7 +207,7 @@ var defaultMessages = {
   },
 }
 function messages(msgs) {
-  return _extends({}, defaultMessages, {}, msgs)
+  return _extends({}, defaultMessages, msgs)
 }
 
 /* eslint no-fallthrough: off */
@@ -372,7 +372,7 @@ var EventCell =
           'div',
           _extends({}, props, {
             tabIndex: 0,
-            style: _extends({}, userProps.style, {}, style),
+            style: _extends({}, userProps.style, style),
             className: clsx('rbc-event', className, userProps.className, {
               'rbc-selected': selected,
               'rbc-event-allday': showAsAllDay,
@@ -553,7 +553,7 @@ var Popup =
       return React.createElement(
         'div',
         {
-          style: _extends({}, this.props.style, {}, style),
+          style: _extends({}, this.props.style, style),
           className: 'rbc-overlay',
           ref: popperRef,
         },
@@ -614,13 +614,12 @@ Popup.propTypes =
             current: PropTypes.Element,
           }),
         ]),
+        /**
+         * The Overlay component, of react-overlays, creates a ref that is passed to the Popup, and
+         * requires proper ref forwarding to be used without error
+         */
       }
     : {}
-/**
- * The Overlay component, of react-overlays, creates a ref that is passed to the Popup, and
- * requires proper ref forwarding to be used without error
- */
-
 var Popup$1 = React.forwardRef(function(props, ref) {
   return React.createElement(
     Popup,
@@ -1829,7 +1828,7 @@ function getSlotMetrics() {
       slots: range.length,
       clone: function clone(args) {
         var metrics = getSlotMetrics()
-        return metrics(_extends({}, options, {}, args))
+        return metrics(_extends({}, options, args))
       },
       getDateForSlot: function getDateForSlot(slotNumber) {
         return range[slotNumber]
@@ -2194,7 +2193,7 @@ DateHeader.propTypes =
 
 var GestureWrapper = function GestureWrapper(props) {
   var _swipeBind = useGesture({
-    // onDrag: throttleHandler,
+    onDrag: throttleHandler,
     onScroll: throttleHandler,
     onWheel: throttleHandler,
   })
@@ -2208,8 +2207,9 @@ var GestureWrapper = function GestureWrapper(props) {
 
 var handler = function handler(_ref) {
   var wheeling = _ref.wheeling,
-    _ref$vx = _ref.vx,
-    vx = _ref$vx[0]
+    _ref$vxvy = _ref.vxvy,
+    vx = _ref$vxvy[0],
+    vy = _ref$vxvy[1]
 
   if (!wheeling) {
     if (vx <= 0) {
@@ -2217,6 +2217,14 @@ var handler = function handler(_ref) {
     }
 
     if (vx > 0) {
+      document.querySelector('#navigate-left').click()
+    }
+
+    if (vy <= 0) {
+      document.querySelector('#navigate-right').click()
+    }
+
+    if (vy > 0) {
       document.querySelector('#navigate-left').click()
     }
   }
@@ -2477,23 +2485,17 @@ var MonthView =
       return React.createElement(
         GestureWrapper,
         {
-          className: 'xs-pt-30 xs-pb-50 ',
+          className: clsx('rbc-month-view', className),
         },
         React.createElement(
           'div',
           {
-            className: clsx('rbc-month-view', className),
+            className: 'rbc-row rbc-month-header',
           },
-          React.createElement(
-            'div',
-            {
-              className: 'rbc-row rbc-month-header',
-            },
-            this.renderHeaders(weeks[0])
-          ),
-          weeks.map(this.renderWeek),
-          this.props.popup && this.renderOverlay()
-        )
+          this.renderHeaders(weeks[0])
+        ),
+        weeks.map(this.renderWeek),
+        this.props.popup && this.renderOverlay()
       )
     }
 
@@ -5009,14 +5011,13 @@ Agenda.title = function(start, _ref3) {
 }
 
 var _VIEWS
-var VIEWS =
-  ((_VIEWS = {}),
-  (_VIEWS[views.MONTH] = MonthView),
-  (_VIEWS[views.WEEK] = Week),
-  (_VIEWS[views.WORK_WEEK] = WorkWeek),
-  (_VIEWS[views.DAY] = Day),
-  (_VIEWS[views.AGENDA] = Agenda),
-  _VIEWS)
+var VIEWS = ((_VIEWS = {}),
+(_VIEWS[views.MONTH] = MonthView),
+(_VIEWS[views.WEEK] = Week),
+(_VIEWS[views.WORK_WEEK] = WorkWeek),
+(_VIEWS[views.DAY] = Day),
+(_VIEWS[views.AGENDA] = Agenda),
+_VIEWS)
 
 function moveDate(View, _ref) {
   var action = _ref.action,
