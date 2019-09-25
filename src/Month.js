@@ -21,14 +21,10 @@ import DateHeader from './DateHeader'
 import { inRange, sortEvents } from './utils/eventLevels'
 import { useGesture } from 'react-use-gesture'
 
-// let xPos = 0
-// let yPos = 0
-
 const GestureWrapper = props => {
   const _swipeBind = useGesture({
     onDrag: throttleHandler,
     // onScroll: throttleHandler,
-
     onWheel: throttleHandler,
   })
 
