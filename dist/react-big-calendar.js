@@ -15030,6 +15030,7 @@
               {
                 type: 'button',
                 onClick: this.navigate.bind(null, navigate.PREVIOUS),
+                id: 'navigate-right',
               },
               messages.previous
             ),
@@ -15038,6 +15039,7 @@
               {
                 type: 'button',
                 onClick: this.navigate.bind(null, navigate.NEXT),
+                id: 'navigate-left',
               },
               messages.next
             )
