@@ -25,7 +25,7 @@ class Toolbar extends React.Component {
             id="navigate-right"
             className="back fc-icon fc-icon-chevron-left"
           >
-            {messages.previous}
+            {/* {messages.previous} */}
           </button>
           <button
             type="button"
@@ -33,7 +33,7 @@ class Toolbar extends React.Component {
             id="navigate-left"
             className="next fc-icon fc-icon-chevron-right"
           >
-            {messages.next}
+            {/* {messages.next} */}
           </button>
         </span>
 

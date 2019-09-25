@@ -5062,24 +5062,18 @@ var Toolbar =
             },
             messages.today
           ),
-          React.createElement(
-            'button',
-            {
-              type: 'button',
-              onClick: this.navigate.bind(null, navigate.PREVIOUS),
-              id: 'navigate-right',
-            },
-            messages.previous
-          ),
-          React.createElement(
-            'button',
-            {
-              type: 'button',
-              onClick: this.navigate.bind(null, navigate.NEXT),
-              id: 'navigate-left',
-            },
-            messages.next
-          )
+          React.createElement('button', {
+            type: 'button',
+            onClick: this.navigate.bind(null, navigate.PREVIOUS),
+            id: 'navigate-right',
+            className: 'back fc-icon fc-icon-chevron-left',
+          }),
+          React.createElement('button', {
+            type: 'button',
+            onClick: this.navigate.bind(null, navigate.NEXT),
+            id: 'navigate-left',
+            className: 'next fc-icon fc-icon-chevron-right',
+          })
         ),
         React.createElement(
           'span',

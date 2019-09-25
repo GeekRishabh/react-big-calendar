@@ -15025,24 +15025,18 @@
               },
               messages.today
             ),
-            React__default.createElement(
-              'button',
-              {
-                type: 'button',
-                onClick: this.navigate.bind(null, navigate.PREVIOUS),
-                id: 'navigate-right',
-              },
-              messages.previous
-            ),
-            React__default.createElement(
-              'button',
-              {
-                type: 'button',
-                onClick: this.navigate.bind(null, navigate.NEXT),
-                id: 'navigate-left',
-              },
-              messages.next
-            )
+            React__default.createElement('button', {
+              type: 'button',
+              onClick: this.navigate.bind(null, navigate.PREVIOUS),
+              id: 'navigate-right',
+              className: 'back fc-icon fc-icon-chevron-left',
+            }),
+            React__default.createElement('button', {
+              type: 'button',
+              onClick: this.navigate.bind(null, navigate.NEXT),
+              id: 'navigate-left',
+              className: 'next fc-icon fc-icon-chevron-right',
+            })
           ),
           React__default.createElement(
             'span',
