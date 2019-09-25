@@ -9,6 +9,7 @@ import warning from 'warning'
 import invariant from 'invariant'
 import _assertThisInitialized from '@babel/runtime/helpers/esm/assertThisInitialized'
 import { findDOMNode } from 'react-dom'
+import { debounce } from 'lodash-es'
 import {
   eq,
   add,
@@ -42,6 +43,7 @@ import listen from 'dom-helpers/listen'
 import findIndex from 'lodash-es/findIndex'
 import range$1 from 'lodash-es/range'
 import memoize from 'memoize-one'
+import { useGesture } from 'react-use-gesture'
 import _createClass from '@babel/runtime/helpers/esm/createClass'
 import sortBy from 'lodash-es/sortBy'
 import getWidth from 'dom-helpers/width'
@@ -2188,6 +2190,40 @@ DateHeader.propTypes =
       }
     : {}
 
+// let yPos = 0
+
+var GestureWrapper = function GestureWrapper(props) {
+  var _swipeBind = useGesture({
+    // onDrag: throttleHandler,
+    onScroll: throttleHandler,
+    onWheel: throttleHandler,
+  })
+
+  return React.createElement(
+    'div',
+    _extends({}, props, _swipeBind()),
+    props.children
+  )
+}
+
+var handler = function handler(_ref) {
+  var wheeling = _ref.wheeling,
+    _ref$vx = _ref.vx,
+    vx = _ref$vx[0]
+
+  if (!wheeling) {
+    if (vx <= 0) {
+      document.querySelector('#navigate-right').click()
+    }
+
+    if (vx > 0) {
+      document.querySelector('#navigate-left').click()
+    }
+  }
+}
+
+var throttleHandler = debounce(handler, 200)
+
 var eventsForWeek = function eventsForWeek(evts, start, end, accessors) {
   return evts.filter(function(e) {
     return inRange(e, start, end, accessors)
@@ -2269,10 +2305,10 @@ var MonthView =
         })
       }
 
-      _this.readerDateHeading = function(_ref) {
-        var date = _ref.date,
-          className = _ref.className,
-          props = _objectWithoutPropertiesLoose(_ref, ['date', 'className'])
+      _this.readerDateHeading = function(_ref2) {
+        var date = _ref2.date,
+          className = _ref2.className,
+          props = _objectWithoutPropertiesLoose(_ref2, ['date', 'className'])
 
         var _this$props2 = _this.props,
           currentDate = _this$props2.date,
@@ -2392,9 +2428,9 @@ var MonthView =
     var _proto = MonthView.prototype
 
     _proto.componentWillReceiveProps = function componentWillReceiveProps(
-      _ref2
+      _ref3
     ) {
-      var date = _ref2.date
+      var date = _ref3.date
       this.setState({
         needLimitMeasure: !eq(date, this.props.date, 'month'),
       })
@@ -2439,19 +2475,25 @@ var MonthView =
         weeks = chunk(month, 7)
       this._weekCount = weeks.length
       return React.createElement(
-        'div',
+        GestureWrapper,
         {
-          className: clsx('rbc-month-view', className),
+          className: 'xs-pt-30 xs-pb-50 ',
         },
         React.createElement(
           'div',
           {
-            className: 'rbc-row rbc-month-header',
+            className: clsx('rbc-month-view', className),
           },
-          this.renderHeaders(weeks[0])
-        ),
-        weeks.map(this.renderWeek),
-        this.props.popup && this.renderOverlay()
+          React.createElement(
+            'div',
+            {
+              className: 'rbc-row rbc-month-header',
+            },
+            this.renderHeaders(weeks[0])
+          ),
+          weeks.map(this.renderWeek),
+          this.props.popup && this.renderOverlay()
+        )
       )
     }
 
@@ -2504,8 +2546,8 @@ var MonthView =
             return overlay.target
           },
         },
-        function(_ref3) {
-          var props = _ref3.props
+        function(_ref4) {
+          var props = _ref4.props
           return React.createElement(
             Popup$1,
             _extends({}, props, {
@@ -2596,8 +2638,8 @@ MonthView.propTypes =
       }
     : {}
 
-MonthView.range = function(date, _ref4) {
-  var localizer = _ref4.localizer
+MonthView.range = function(date, _ref5) {
+  var localizer = _ref5.localizer
   var start = firstVisibleDay(date, localizer)
   var end = lastVisibleDay(date, localizer)
   return {
@@ -2619,8 +2661,8 @@ MonthView.navigate = function(date, action) {
   }
 }
 
-MonthView.title = function(date, _ref5) {
-  var localizer = _ref5.localizer
+MonthView.title = function(date, _ref6) {
+  var localizer = _ref6.localizer
   return localizer.format(date, 'monthHeaderFormat')
 }
 
@@ -5066,7 +5108,7 @@ var Toolbar =
             type: 'button',
             onClick: this.navigate.bind(null, navigate.PREVIOUS),
             id: 'navigate-right',
-            className: 'back fc-icon fc-icon-chevron-left',
+            className: 'back fc-icon fc-icon-chevron-left test',
           }),
           React.createElement('button', {
             type: 'button',

@@ -23,7 +23,7 @@ class Toolbar extends React.Component {
             type="button"
             onClick={this.navigate.bind(null, navigate.PREVIOUS)}
             id="navigate-right"
-            className="back fc-icon fc-icon-chevron-left"
+            className="back fc-icon fc-icon-chevron-left test"
           >
             {/* {messages.previous} */}
           </button>
