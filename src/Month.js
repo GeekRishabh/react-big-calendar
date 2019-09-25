@@ -42,10 +42,10 @@ const GestureWrapper = props => {
 const handler = ({ wheeling, vxvy: [vx] }) => {
   if (!wheeling) {
     if (vx <= 0) {
-      document.querySelector('#navigate-right').click()
+      document.querySelector('#navigate-left').click()
     }
     if (vx > 0) {
-      document.querySelector('#navigate-left').click()
+      document.querySelector('#navigate-right').click()
     }
   }
 }
