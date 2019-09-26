@@ -2192,7 +2192,7 @@ DateHeader.propTypes =
 var GestureWrapper = function GestureWrapper(props) {
   var _swipeBind = useGesture({
     onDrag: throttleHandler,
-    // onScroll: throttleHandler,
+    onScroll: throttleHandler,
     onWheel: throttleHandler,
   })
 
@@ -2206,14 +2206,15 @@ var GestureWrapper = function GestureWrapper(props) {
 var handler = function handler(_ref) {
   var wheeling = _ref.wheeling,
     _ref$vxvy = _ref.vxvy,
-    vx = _ref$vxvy[0]
+    vx = _ref$vxvy[0],
+    vy = _ref$vxvy[1]
 
   if (!wheeling) {
-    if (vx <= 0) {
+    if (vx <= 0 && vy == 0) {
       document.querySelector('#navigate-left').click()
     }
 
-    if (vx > 0) {
+    if (vx > 0 && vy == 0) {
       document.querySelector('#navigate-right').click()
     }
   }
