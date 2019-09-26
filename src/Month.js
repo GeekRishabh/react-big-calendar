@@ -36,21 +36,13 @@ const GestureWrapper = props => {
   )
 }
 
-const handler = ({ draging, wheeling, vxvy: [vx, vy] }) => {
+const handler = ({ draging, vxvy: [vx, vy] }) => {
   if (!draging) {
     if (vx <= 0 && vy == 0) {
-      document.querySelector('#navigate-left').click()
-    }
-    if (vx > 0 && vy == 0) {
       document.querySelector('#navigate-right').click()
     }
-  }
-  if (!wheeling) {
-    if (vx <= 0 && vy == 0) {
-      document.querySelector('#navigate-left').click()
-    }
     if (vx > 0 && vy == 0) {
-      document.querySelector('#navigate-right').click()
+      document.querySelector('#navigate-left').click()
     }
   }
 }
