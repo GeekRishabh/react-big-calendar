@@ -26,6 +26,7 @@ const GestureWrapper = props => {
     onDrag: throttleHandler,
     onScroll: throttleHandler,
     onWheel: throttleHandler,
+    window: window,
     // onDrag: ({ offset: [x], vxvy: [vx] }) => vx && ((dragOffset.current = -x)),
   })
 

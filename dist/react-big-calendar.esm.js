@@ -2193,7 +2193,8 @@ var GestureWrapper = function GestureWrapper(props) {
   var _swipeBind = useGesture({
     onDrag: throttleHandler,
     onScroll: throttleHandler,
-    onWheel: throttleHandler, // onDrag: ({ offset: [x], vxvy: [vx] }) => vx && ((dragOffset.current = -x)),
+    onWheel: throttleHandler,
+    window: window, // onDrag: ({ offset: [x], vxvy: [vx] }) => vx && ((dragOffset.current = -x)),
   })
 
   return React.createElement(
