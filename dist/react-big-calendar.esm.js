@@ -2191,9 +2191,9 @@ DateHeader.propTypes =
 
 var GestureWrapper = function GestureWrapper(props) {
   var _swipeBind = useGesture({
-    // onDrag: throttleHandler,
-    // onScroll: throttleHandler,
-    onWheel: throttleHandler,
+    onDrag: throttleHandler,
+    onScroll: throttleHandler,
+    onWheel: throttleHandler, // onDrag: ({ offset: [x], vxvy: [vx] }) => vx && ((dragOffset.current = -x)),
   })
 
   return React.createElement(
@@ -2204,10 +2204,21 @@ var GestureWrapper = function GestureWrapper(props) {
 }
 
 var handler = function handler(_ref) {
-  var wheeling = _ref.wheeling,
+  var draging = _ref.draging,
+    wheeling = _ref.wheeling,
     _ref$vxvy = _ref.vxvy,
     vx = _ref$vxvy[0],
     vy = _ref$vxvy[1]
+
+  if (!draging) {
+    if (vx <= 0 && vy == 0) {
+      document.querySelector('#navigate-left').click()
+    }
+
+    if (vx > 0 && vy == 0) {
+      document.querySelector('#navigate-right').click()
+    }
+  }
 
   if (!wheeling) {
     if (vx <= 0 && vy == 0) {
