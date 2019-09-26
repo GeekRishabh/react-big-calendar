@@ -23,7 +23,7 @@ import { useGesture } from 'react-use-gesture'
 
 const GestureWrapper = props => {
   const _swipeBind = useGesture({
-    // onDrag: throttleHandler,
+    onDrag: throttleHandler,
     onScroll: throttleHandler,
     onWheel: throttleHandler,
     // onDrag: ({ offset: [x], vxvy: [vx] }) => vx && ((dragOffset.current = -x)),
