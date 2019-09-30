@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import clsx from 'clsx'
-import { debounce } from 'lodash'
 
 import * as dates from './utils/dates'
 import chunk from 'lodash/chunk'
@@ -19,33 +18,34 @@ import Header from './Header'
 import DateHeader from './DateHeader'
 
 import { inRange, sortEvents } from './utils/eventLevels'
-import { useGesture } from 'react-use-gesture'
+// import { useGesture } from 'react-use-gesture'
+// import  { Swipe } from 'react-easy-swipe';
 
-const GestureWrapper = props => {
-  const _swipeBind = useGesture({
-    onDrag: throttleHandler,
-    onScroll: throttleHandler,
-    onWheel: throttleHandler,
-  })
+// const GestureWrapper = props => {
+//   const _swipeBind = useGesture({
+//     onDrag: throttleHandler,
+//     onScroll: throttleHandler,
+//     onWheel: throttleHandler,
+//   })
 
-  return (
-    <div {...props} {..._swipeBind()}>
-      {props.children}
-    </div>
-  )
-}
+//   return (
+//     <div {...props} {..._swipeBind()}>
+//       {props.children}
+//     </div>
+//   )
+// }
 
-const handler = ({ wheeling, vxvy: [vx, vy] }) => {
-  if (!wheeling) {
-    if (vx <= 0 && vy == 0) {
-      document.querySelector('#navigate-left').click()
-    }
-    if (vx > 0 && vy == 0) {
-      document.querySelector('#navigate-right').click()
-    }
-  }
-}
-const throttleHandler = debounce(handler, 200)
+// const handler = ({ wheeling, vxvy: [vx, vy] }) => {
+//   if (!wheeling) {
+//     if (vx <= 0 && vy == 0) {
+//       document.querySelector('#navigate-left').click()
+//     }
+//     if (vx > 0 && vy == 0) {
+//       document.querySelector('#navigate-right').click()
+//     }
+//   }
+// }
+// const throttleHandler = debounce(handler, 200)
 
 let eventsForWeek = (evts, start, end, accessors) =>
   evts.filter(e => inRange(e, start, end, accessors))
@@ -108,13 +108,13 @@ class MonthView extends React.Component {
     this._weekCount = weeks.length
 
     return (
-      <GestureWrapper className={clsx('rbc-month-view', className)}>
+      <div className={clsx('rbc-month-view', className)}>
         <div className="rbc-row rbc-month-header">
           {this.renderHeaders(weeks[0])}
         </div>
         {weeks.map(this.renderWeek)}
         {this.props.popup && this.renderOverlay()}
-      </GestureWrapper>
+      </div>
     )
   }
 
