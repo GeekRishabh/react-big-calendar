@@ -2467,6 +2467,19 @@ var MonthView =
         'div',
         {
           className: clsx('rbc-month-view', className),
+          onWheel: function onWheel(e) {
+            e.preventDefault()
+
+            if (e.deltaY > 40) {
+              // next month
+              document.querySelector('#navigate-right').click()
+            }
+
+            if (e.deltaY < -40) {
+              // prev month
+              document.querySelector('#navigate-left').click()
+            }
+          },
         },
         React.createElement(
           'div',
