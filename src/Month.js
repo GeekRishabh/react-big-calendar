@@ -109,7 +109,20 @@ class MonthView extends React.Component {
     this._weekCount = weeks.length
 
     return (
-      <div className={clsx('rbc-month-view', className)}>
+      <div
+        className={clsx('rbc-month-view', className)}
+        onWheel={e => {
+          e.preventDefault()
+          if (e.deltaY > 40) {
+            // next month
+            document.querySelector('#navigate-right').click()
+          }
+          if (e.deltaY < -40) {
+            // prev month
+            document.querySelector('#navigate-left').click()
+          }
+        }}
+      >
         <div className="rbc-row rbc-month-header">
           {this.renderHeaders(weeks[0])}
         </div>
