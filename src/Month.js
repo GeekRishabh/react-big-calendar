@@ -2,11 +2,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import clsx from 'clsx'
-// import { debounce } from 'lodash'
 
 import * as dates from './utils/dates'
 import chunk from 'lodash/chunk'
-
+import { debounce } from 'lodash'
 import { navigate, views } from './utils/constants'
 import { notify } from './utils/helpers'
 import getPosition from 'dom-helpers/position'
@@ -46,7 +45,6 @@ import { inRange, sortEvents } from './utils/eventLevels'
 //     }
 //   }
 // }
-// const throttleHandler = debounce(handler, 200)
 
 let eventsForWeek = (evts, start, end, accessors) =>
   evts.filter(e => inRange(e, start, end, accessors))
@@ -70,7 +68,71 @@ class MonthView extends React.Component {
     })
   }
 
+  navigateLeft = () => {
+    document.querySelector('#navigate-left').click()
+  }
+
+  navigateRight = () => {
+    document.querySelector('#navigate-right').click()
+  }
+
+  handleCalendarNavigationClick = debounce(
+    deltaY => {
+      if (deltaY > 0) {
+        // prev month
+        this.navigateLeft()
+      }
+      if (deltaY < 0) {
+        // next month
+        this.navigateRight()
+      }
+    },
+    100,
+    {
+      leading: false,
+      trailing: true,
+    }
+  )
+
+  eventWheel = e => {
+    e.preventDefault()
+    this.handleCalendarNavigationClick(e.deltaY)
+  }
+
+  handleCalendarNavigationMobile = debounce(
+    deltaY => {
+      if (deltaY > 600) {
+        // next month
+        this.navigateRight()
+      }
+      if (deltaY < 800) {
+        // prev month
+        this.navigateLeft()
+      }
+    },
+    100,
+    {
+      leading: false,
+      trailing: true,
+    }
+  )
+
+  touchMoveHandler = e => {
+    e.preventDefault()
+    this.handleCalendarNavigationMobile(e.touches[0].clientY)
+  }
+
   componentDidMount() {
+    let onWheelFn = document.getElementById('onWheel')
+    if (onWheelFn) {
+      onWheelFn.addEventListener(
+        'wheel',
+        (this.onWheel = e => this.eventWheel(e)),
+        false
+      )
+      onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
+    }
+
     let running
 
     if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
@@ -94,6 +156,9 @@ class MonthView extends React.Component {
   }
 
   componentWillUnmount() {
+    document.removeEventListener('wheel', this.onWheel, false)
+    document.removeEventListener('touchmove', this.onWheel, false)
+
     window.removeEventListener('resize', this._resizeListener, false)
   }
 
@@ -109,20 +174,7 @@ class MonthView extends React.Component {
     this._weekCount = weeks.length
 
     return (
-      <div
-        className={clsx('rbc-month-view', className)}
-        onWheel={e => {
-          e.preventDefault()
-          if (e.deltaY > 40) {
-            // next month
-            document.querySelector('#navigate-right').click()
-          }
-          if (e.deltaY < -40) {
-            // prev month
-            document.querySelector('#navigate-left').click()
-          }
-        }}
-      >
+      <div id="onWheel" className={clsx('rbc-month-view', className)}>
         <div className="rbc-row rbc-month-header">
           {this.renderHeaders(weeks[0])}
         </div>
