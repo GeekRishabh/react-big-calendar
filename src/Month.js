@@ -60,6 +60,8 @@ class MonthView extends React.Component {
       rowLimit: 5,
       needLimitMeasure: true,
     }
+    this.startTouch = 0
+    this.endTouch = 0
   }
 
   componentWillReceiveProps({ date }) {
@@ -101,7 +103,7 @@ class MonthView extends React.Component {
 
   handleCalendarNavigationMobile = debounce(
     deltaY => {
-      if (deltaY > 300) {
+      if (deltaY > 400) {
         // next month
         this.navigateRight()
       }
@@ -117,21 +119,30 @@ class MonthView extends React.Component {
     }
   )
 
-  touchMoveHandler = e => {
+  touchStartHandler = e => {
     e.preventDefault()
-    this.handleCalendarNavigationMobile(e.touches[0].clientY)
+
+    this.startTouch = e.touches[0].clientY
+    // this.handleCalendarNavigationMobile(e.touches[0].clientY)
   }
 
+  touchMoveHandler = e => {
+    e.preventDefault()
+    this.endTouch = e.touches[0].clientY
+
+    // this.handleCalendarNavigationMobile(this.startTouch - this.endTouch)
+  }
   componentDidMount() {
-    let onWheelFn = document.getElementById('onWheel')
-    if (onWheelFn) {
-      onWheelFn.addEventListener(
-        'wheel',
-        (this.onWheel = e => this.eventWheel(e)),
-        false
-      )
-      onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
-    }
+    // let onWheelFn = document.getElementById('onWheel')
+    // if (onWheelFn) {
+    //   onWheelFn.addEventListener(
+    //     'wheel',
+    //     (this.onWheel = e => this.eventWheel(e)),
+    //     false
+    //   )
+    //   onWheelFn.addEventListener('touchstart', this.touchStartHandler, false)
+    //   onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
+    // }
 
     let running
 
@@ -156,8 +167,9 @@ class MonthView extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('wheel', this.onWheel, false)
-    document.removeEventListener('touchmove', this.onWheel, false)
+    // document.removeEventListener('wheel', this.eventWheel, false)
+    // document.removeEventListener('touchstart', this.touchMoveHandler, false)
+    // document.removeEventListener('touchend', this.touchMoveHandler, false)
 
     window.removeEventListener('resize', this._resizeListener, false)
   }

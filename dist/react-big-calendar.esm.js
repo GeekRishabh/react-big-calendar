@@ -2274,7 +2274,7 @@ var MonthView =
 
       _this.handleCalendarNavigationMobile = debounce(
         function(deltaY) {
-          if (deltaY > 300) {
+          if (deltaY > 400) {
             // next month
             _this.navigateRight()
           }
@@ -2291,10 +2291,14 @@ var MonthView =
         }
       )
 
+      _this.touchStartHandler = function(e) {
+        e.preventDefault()
+        _this.startTouch = e.touches[0].clientY // this.handleCalendarNavigationMobile(e.touches[0].clientY)
+      }
+
       _this.touchMoveHandler = function(e) {
         e.preventDefault()
-
-        _this.handleCalendarNavigationMobile(e.touches[0].clientY)
+        _this.endTouch = e.touches[0].clientY // this.handleCalendarNavigationMobile(this.startTouch - this.endTouch)
       }
 
       _this.getContainer = function() {
@@ -2469,6 +2473,8 @@ var MonthView =
         rowLimit: 5,
         needLimitMeasure: true,
       }
+      _this.startTouch = 0
+      _this.endTouch = 0
       return _this
     }
 
@@ -2486,19 +2492,16 @@ var MonthView =
     _proto.componentDidMount = function componentDidMount() {
       var _this2 = this
 
-      var onWheelFn = document.getElementById('onWheel')
-
-      if (onWheelFn) {
-        onWheelFn.addEventListener(
-          'wheel',
-          (this.onWheel = function(e) {
-            return _this2.eventWheel(e)
-          }),
-          false
-        )
-        onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
-      }
-
+      // let onWheelFn = document.getElementById('onWheel')
+      // if (onWheelFn) {
+      //   onWheelFn.addEventListener(
+      //     'wheel',
+      //     (this.onWheel = e => this.eventWheel(e)),
+      //     false
+      //   )
+      //   onWheelFn.addEventListener('touchstart', this.touchStartHandler, false)
+      //   onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
+      // }
       var running
       if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
       window.addEventListener(
@@ -2523,8 +2526,9 @@ var MonthView =
     }
 
     _proto.componentWillUnmount = function componentWillUnmount() {
-      document.removeEventListener('wheel', this.onWheel, false)
-      document.removeEventListener('touchmove', this.onWheel, false)
+      // document.removeEventListener('wheel', this.eventWheel, false)
+      // document.removeEventListener('touchstart', this.touchMoveHandler, false)
+      // document.removeEventListener('touchend', this.touchMoveHandler, false)
       window.removeEventListener('resize', this._resizeListener, false)
     }
 
@@ -5165,13 +5169,13 @@ var Toolbar =
             type: 'button',
             onClick: this.navigate.bind(null, navigate.PREVIOUS),
             id: 'navigate-left',
-            className: 'back fc-icon fc-icon-chevron-down ',
+            className: 'back fc-icon fc-icon-chevron-left',
           }),
           React.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.NEXT),
             id: 'navigate-right',
-            className: 'next fc-icon fc-icon-chevron-up',
+            className: 'next fc-icon fc-icon-chevron-right',
           })
         ),
         React.createElement(
