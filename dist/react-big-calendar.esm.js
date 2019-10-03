@@ -5177,7 +5177,7 @@ var Toolbar =
               type: 'button',
               onClick: this.navigate.bind(null, navigate.PREVIOUS),
               id: 'navigate-left',
-              className: 'back fc-icon fc-icon-chevron-left',
+              className: 'back',
             },
             React.createElement('i', {
               className: 'fa fa-chevron-down',
@@ -5189,7 +5189,7 @@ var Toolbar =
               type: 'button',
               onClick: this.navigate.bind(null, navigate.NEXT),
               id: 'navigate-right',
-              className: 'next fc-icon fc-icon-chevron-right',
+              className: 'next',
             },
             React.createElement('i', {
               className: 'fa fa-chevron-up',
