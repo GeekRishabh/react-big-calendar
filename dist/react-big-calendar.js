@@ -27520,7 +27520,7 @@
 
         _this.handleCalendarNavigationMobile = debounce(
           function(deltaY) {
-            if (deltaY > 600) {
+            if (deltaY > 400) {
               // next month
               _this.navigateRight()
             }
