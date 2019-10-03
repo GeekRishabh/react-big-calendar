@@ -28,6 +28,7 @@ import {
   inRange as inRange$1,
 } from 'date-arithmetic'
 import chunk from 'lodash-es/chunk'
+import { debounce } from 'lodash-es'
 import getPosition from 'dom-helpers/position'
 import { request, cancel } from 'dom-helpers/animationFrame'
 import getOffset from 'dom-helpers/offset'
@@ -2211,7 +2212,6 @@ DateHeader.propTypes =
 //     }
 //   }
 // }
-// const throttleHandler = debounce(handler, 200)
 
 var eventsForWeek = function eventsForWeek(evts, start, end, accessors) {
   return evts.filter(function(e) {
@@ -2238,6 +2238,64 @@ var MonthView =
       _this =
         _React$Component.call.apply(_React$Component, [this].concat(_args)) ||
         this
+
+      _this.navigateLeft = function() {
+        document.querySelector('#navigate-left').click()
+      }
+
+      _this.navigateRight = function() {
+        document.querySelector('#navigate-right').click()
+      }
+
+      _this.handleCalendarNavigationClick = debounce(
+        function(deltaY) {
+          if (deltaY > 0) {
+            // prev month
+            _this.navigateLeft()
+          }
+
+          if (deltaY < 0) {
+            // next month
+            _this.navigateRight()
+          }
+        },
+        100,
+        {
+          leading: false,
+          trailing: true,
+        }
+      )
+
+      _this.eventWheel = function(e) {
+        e.preventDefault()
+
+        _this.handleCalendarNavigationClick(e.deltaY)
+      }
+
+      _this.handleCalendarNavigationMobile = debounce(
+        function(deltaY) {
+          if (deltaY > 600) {
+            // next month
+            _this.navigateRight()
+          }
+
+          if (deltaY < 800) {
+            // prev month
+            _this.navigateLeft()
+          }
+        },
+        100,
+        {
+          leading: false,
+          trailing: true,
+        }
+      )
+
+      _this.touchMoveHandler = function(e) {
+        e.preventDefault()
+
+        _this.handleCalendarNavigationMobile(e.touches[0].clientY)
+      }
 
       _this.getContainer = function() {
         return findDOMNode(_assertThisInitialized(_this))
@@ -2428,6 +2486,19 @@ var MonthView =
     _proto.componentDidMount = function componentDidMount() {
       var _this2 = this
 
+      var onWheelFn = document.getElementById('onWheel')
+
+      if (onWheelFn) {
+        onWheelFn.addEventListener(
+          'wheel',
+          (this.onWheel = function(e) {
+            return _this2.eventWheel(e)
+          }),
+          false
+        )
+        onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
+      }
+
       var running
       if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
       window.addEventListener(
@@ -2452,6 +2523,8 @@ var MonthView =
     }
 
     _proto.componentWillUnmount = function componentWillUnmount() {
+      document.removeEventListener('wheel', this.onWheel, false)
+      document.removeEventListener('touchmove', this.onWheel, false)
       window.removeEventListener('resize', this._resizeListener, false)
     }
 
@@ -2466,20 +2539,8 @@ var MonthView =
       return React.createElement(
         'div',
         {
+          id: 'onWheel',
           className: clsx('rbc-month-view', className),
-          onWheel: function onWheel(e) {
-            e.preventDefault()
-
-            if (e.deltaY > 40) {
-              // next month
-              document.querySelector('#navigate-right').click()
-            }
-
-            if (e.deltaY < -40) {
-              // prev month
-              document.querySelector('#navigate-left').click()
-            }
-          },
         },
         React.createElement(
           'div',
@@ -5104,13 +5165,13 @@ var Toolbar =
             type: 'button',
             onClick: this.navigate.bind(null, navigate.PREVIOUS),
             id: 'navigate-left',
-            className: 'back fc-icon fc-icon-chevron-left ',
+            className: 'back fc-icon fc-icon-chevron-down ',
           }),
           React.createElement('button', {
             type: 'button',
             onClick: this.navigate.bind(null, navigate.NEXT),
             id: 'navigate-right',
-            className: 'next fc-icon fc-icon-chevron-right',
+            className: 'next fc-icon fc-icon-chevron-up',
           })
         ),
         React.createElement(
