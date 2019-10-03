@@ -103,11 +103,11 @@ class MonthView extends React.Component {
 
   handleCalendarNavigationMobile = debounce(
     deltaY => {
-      if (deltaY < -90 && deltaY < 0) {
+      if (deltaY < -90) {
         // next month
         this.navigateRight()
       }
-      if (deltaY > 150 && deltaY > 0) {
+      if (deltaY > 150) {
         // prev month
         this.navigateLeft()
       }
@@ -120,7 +120,7 @@ class MonthView extends React.Component {
   )
 
   touchStartHandler = e => {
-    e.preventDefault()
+    // e.preventDefault()
     this.startTouch = e.touches[0].clientY
   }
 
@@ -130,16 +130,17 @@ class MonthView extends React.Component {
 
     this.handleCalendarNavigationMobile(this.startTouch - this.endTouch)
   }
+
   componentDidMount() {
-    let onWheelFn = document.getElementById('onWheel')
-    if (onWheelFn) {
-      onWheelFn.addEventListener(
+    let el = document.getElementById('onWheel')
+    if (el) {
+      el.addEventListener(
         'wheel',
         (this.onWheel = e => this.eventWheel(e)),
         false
       )
-      onWheelFn.addEventListener('touchstart', this.touchStartHandler, false)
-      onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
+      el.addEventListener('touchstart', this.touchStartHandler, false)
+      el.addEventListener('touchmove', this.touchMoveHandler, false)
     }
 
     let running
@@ -166,8 +167,8 @@ class MonthView extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('wheel', this.eventWheel, false)
-    document.removeEventListener('touchstart', this.touchMoveHandler, false)
-    document.removeEventListener('touchend', this.touchMoveHandler, false)
+    document.removeEventListener('touchstart', this.touchStartHandler, false)
+    document.removeEventListener('touchmove', this.touchMoveHandler, false)
 
     window.removeEventListener('resize', this._resizeListener, false)
   }
