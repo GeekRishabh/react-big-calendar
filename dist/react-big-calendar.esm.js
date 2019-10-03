@@ -2274,7 +2274,7 @@ var MonthView =
 
       _this.handleCalendarNavigationMobile = debounce(
         function(deltaY) {
-          if (deltaY > 400) {
+          if (deltaY > 300) {
             // next month
             _this.navigateRight()
           }

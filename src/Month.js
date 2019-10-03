@@ -101,7 +101,7 @@ class MonthView extends React.Component {
 
   handleCalendarNavigationMobile = debounce(
     deltaY => {
-      if (deltaY > 400) {
+      if (deltaY > 300) {
         // next month
         this.navigateRight()
       }
