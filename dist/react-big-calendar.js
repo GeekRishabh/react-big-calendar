@@ -27520,12 +27520,12 @@
 
         _this.handleCalendarNavigationMobile = debounce(
           function(deltaY) {
-            if (deltaY < -90 && deltaY < 0) {
+            if (deltaY < -90) {
               // next month
               _this.navigateRight()
             }
 
-            if (deltaY > 150 && deltaY > 0) {
+            if (deltaY > 150) {
               // prev month
               _this.navigateLeft()
             }
@@ -27538,7 +27538,7 @@
         )
 
         _this.touchStartHandler = function(e) {
-          e.preventDefault()
+          // e.preventDefault()
           _this.startTouch = e.touches[0].clientY
         }
 
@@ -27742,22 +27742,18 @@
       _proto.componentDidMount = function componentDidMount() {
         var _this2 = this
 
-        var onWheelFn = document.getElementById('onWheel')
+        var el = document.getElementById('onWheel')
 
-        if (onWheelFn) {
-          onWheelFn.addEventListener(
+        if (el) {
+          el.addEventListener(
             'wheel',
             (this.onWheel = function(e) {
               return _this2.eventWheel(e)
             }),
             false
           )
-          onWheelFn.addEventListener(
-            'touchstart',
-            this.touchStartHandler,
-            false
-          )
-          onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
+          el.addEventListener('touchstart', this.touchStartHandler, false)
+          el.addEventListener('touchmove', this.touchMoveHandler, false)
         }
 
         var running
@@ -27785,8 +27781,12 @@
 
       _proto.componentWillUnmount = function componentWillUnmount() {
         document.removeEventListener('wheel', this.eventWheel, false)
-        document.removeEventListener('touchstart', this.touchMoveHandler, false)
-        document.removeEventListener('touchend', this.touchMoveHandler, false)
+        document.removeEventListener(
+          'touchstart',
+          this.touchStartHandler,
+          false
+        )
+        document.removeEventListener('touchmove', this.touchMoveHandler, false)
         window.removeEventListener('resize', this._resizeListener, false)
       }
 
