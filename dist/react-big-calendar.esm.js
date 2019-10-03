@@ -2274,12 +2274,12 @@ var MonthView =
 
       _this.handleCalendarNavigationMobile = debounce(
         function(deltaY) {
-          if (deltaY > 400) {
+          if (deltaY < -90 && deltaY < 0) {
             // next month
             _this.navigateRight()
           }
 
-          if (deltaY < 800) {
+          if (deltaY > 150 && deltaY > 0) {
             // prev month
             _this.navigateLeft()
           }
@@ -2293,12 +2293,14 @@ var MonthView =
 
       _this.touchStartHandler = function(e) {
         e.preventDefault()
-        _this.startTouch = e.touches[0].clientY // this.handleCalendarNavigationMobile(e.touches[0].clientY)
+        _this.startTouch = e.touches[0].clientY
       }
 
       _this.touchMoveHandler = function(e) {
         e.preventDefault()
-        _this.endTouch = e.touches[0].clientY // this.handleCalendarNavigationMobile(this.startTouch - this.endTouch)
+        _this.endTouch = e.touches[0].clientY
+
+        _this.handleCalendarNavigationMobile(_this.startTouch - _this.endTouch)
       }
 
       _this.getContainer = function() {
@@ -2492,16 +2494,20 @@ var MonthView =
     _proto.componentDidMount = function componentDidMount() {
       var _this2 = this
 
-      // let onWheelFn = document.getElementById('onWheel')
-      // if (onWheelFn) {
-      //   onWheelFn.addEventListener(
-      //     'wheel',
-      //     (this.onWheel = e => this.eventWheel(e)),
-      //     false
-      //   )
-      //   onWheelFn.addEventListener('touchstart', this.touchStartHandler, false)
-      //   onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
-      // }
+      var onWheelFn = document.getElementById('onWheel')
+
+      if (onWheelFn) {
+        onWheelFn.addEventListener(
+          'wheel',
+          (this.onWheel = function(e) {
+            return _this2.eventWheel(e)
+          }),
+          false
+        )
+        onWheelFn.addEventListener('touchstart', this.touchStartHandler, false)
+        onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
+      }
+
       var running
       if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
       window.addEventListener(
@@ -2526,9 +2532,9 @@ var MonthView =
     }
 
     _proto.componentWillUnmount = function componentWillUnmount() {
-      // document.removeEventListener('wheel', this.eventWheel, false)
-      // document.removeEventListener('touchstart', this.touchMoveHandler, false)
-      // document.removeEventListener('touchend', this.touchMoveHandler, false)
+      document.removeEventListener('wheel', this.eventWheel, false)
+      document.removeEventListener('touchstart', this.touchMoveHandler, false)
+      document.removeEventListener('touchend', this.touchMoveHandler, false)
       window.removeEventListener('resize', this._resizeListener, false)
     }
 
@@ -5165,18 +5171,30 @@ var Toolbar =
             },
             messages.today
           ),
-          React.createElement('button', {
-            type: 'button',
-            onClick: this.navigate.bind(null, navigate.PREVIOUS),
-            id: 'navigate-left',
-            className: 'back fc-icon fc-icon-chevron-left',
-          }),
-          React.createElement('button', {
-            type: 'button',
-            onClick: this.navigate.bind(null, navigate.NEXT),
-            id: 'navigate-right',
-            className: 'next fc-icon fc-icon-chevron-right',
-          })
+          React.createElement(
+            'button',
+            {
+              type: 'button',
+              onClick: this.navigate.bind(null, navigate.PREVIOUS),
+              id: 'navigate-left',
+              className: 'back fc-icon fc-icon-chevron-left',
+            },
+            React.createElement('i', {
+              className: 'fa fa-chevron-down',
+            })
+          ),
+          React.createElement(
+            'button',
+            {
+              type: 'button',
+              onClick: this.navigate.bind(null, navigate.NEXT),
+              id: 'navigate-right',
+              className: 'next fc-icon fc-icon-chevron-right',
+            },
+            React.createElement('i', {
+              className: 'fa fa-chevron-up',
+            })
+          )
         ),
         React.createElement(
           'span',

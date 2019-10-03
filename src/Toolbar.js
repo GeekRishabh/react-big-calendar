@@ -25,6 +25,7 @@ class Toolbar extends React.Component {
             id="navigate-left"
             className="back fc-icon fc-icon-chevron-left"
           >
+            <i className="fa fa-chevron-down" />
             {/* {messages.previous} */}
           </button>
           <button
@@ -33,6 +34,8 @@ class Toolbar extends React.Component {
             id="navigate-right"
             className="next fc-icon fc-icon-chevron-right"
           >
+            <i className="fa fa-chevron-up" />
+
             {/* {messages.next} */}
           </button>
         </span>
