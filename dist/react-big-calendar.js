@@ -27520,12 +27520,12 @@
 
         _this.handleCalendarNavigationMobile = debounce(
           function(deltaY) {
-            if (deltaY > 400) {
+            if (deltaY < -90) {
               // next month
               _this.navigateRight()
             }
 
-            if (deltaY < 800) {
+            if (deltaY > 150) {
               // prev month
               _this.navigateLeft()
             }
@@ -27538,13 +27538,17 @@
         )
 
         _this.touchStartHandler = function(e) {
-          e.preventDefault()
-          _this.startTouch = e.touches[0].clientY // this.handleCalendarNavigationMobile(e.touches[0].clientY)
+          // e.preventDefault()
+          _this.startTouch = e.touches[0].clientY
         }
 
         _this.touchMoveHandler = function(e) {
           e.preventDefault()
-          _this.endTouch = e.touches[0].clientY // this.handleCalendarNavigationMobile(this.startTouch - this.endTouch)
+          _this.endTouch = e.touches[0].clientY
+
+          _this.handleCalendarNavigationMobile(
+            _this.startTouch - _this.endTouch
+          )
         }
 
         _this.getContainer = function() {
@@ -27738,16 +27742,20 @@
       _proto.componentDidMount = function componentDidMount() {
         var _this2 = this
 
-        // let onWheelFn = document.getElementById('onWheel')
-        // if (onWheelFn) {
-        //   onWheelFn.addEventListener(
-        //     'wheel',
-        //     (this.onWheel = e => this.eventWheel(e)),
-        //     false
-        //   )
-        //   onWheelFn.addEventListener('touchstart', this.touchStartHandler, false)
-        //   onWheelFn.addEventListener('touchmove', this.touchMoveHandler, false)
-        // }
+        var el = document.getElementById('onWheel')
+
+        if (el) {
+          el.addEventListener(
+            'wheel',
+            (this.onWheel = function(e) {
+              return _this2.eventWheel(e)
+            }),
+            false
+          )
+          el.addEventListener('touchstart', this.touchStartHandler, false)
+          el.addEventListener('touchmove', this.touchMoveHandler, false)
+        }
+
         var running
         if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
         window.addEventListener(
@@ -27772,9 +27780,13 @@
       }
 
       _proto.componentWillUnmount = function componentWillUnmount() {
-        // document.removeEventListener('wheel', this.eventWheel, false)
-        // document.removeEventListener('touchstart', this.touchMoveHandler, false)
-        // document.removeEventListener('touchend', this.touchMoveHandler, false)
+        document.removeEventListener('wheel', this.eventWheel, false)
+        document.removeEventListener(
+          'touchstart',
+          this.touchStartHandler,
+          false
+        )
+        document.removeEventListener('touchmove', this.touchMoveHandler, false)
         window.removeEventListener('resize', this._resizeListener, false)
       }
 
@@ -30483,18 +30495,30 @@
               },
               messages.today
             ),
-            React__default.createElement('button', {
-              type: 'button',
-              onClick: this.navigate.bind(null, navigate.PREVIOUS),
-              id: 'navigate-left',
-              className: 'back fc-icon fc-icon-chevron-left',
-            }),
-            React__default.createElement('button', {
-              type: 'button',
-              onClick: this.navigate.bind(null, navigate.NEXT),
-              id: 'navigate-right',
-              className: 'next fc-icon fc-icon-chevron-right',
-            })
+            React__default.createElement(
+              'button',
+              {
+                type: 'button',
+                onClick: this.navigate.bind(null, navigate.PREVIOUS),
+                id: 'navigate-left',
+                className: 'back',
+              },
+              React__default.createElement('i', {
+                className: 'fa fa-chevron-down',
+              })
+            ),
+            React__default.createElement(
+              'button',
+              {
+                type: 'button',
+                onClick: this.navigate.bind(null, navigate.NEXT),
+                id: 'navigate-right',
+                className: 'next',
+              },
+              React__default.createElement('i', {
+                className: 'fa fa-chevron-up',
+              })
+            )
           ),
           React__default.createElement(
             'span',

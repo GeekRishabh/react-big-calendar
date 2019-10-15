@@ -23,16 +23,19 @@ class Toolbar extends React.Component {
             type="button"
             onClick={this.navigate.bind(null, navigate.PREVIOUS)}
             id="navigate-left"
-            className="back fc-icon fc-icon-chevron-left"
+            className="back"
           >
+            <i className="fa fa-chevron-down" />
             {/* {messages.previous} */}
           </button>
           <button
             type="button"
             onClick={this.navigate.bind(null, navigate.NEXT)}
             id="navigate-right"
-            className="next fc-icon fc-icon-chevron-right"
+            className="next"
           >
+            <i className="fa fa-chevron-up" />
+
             {/* {messages.next} */}
           </button>
         </span>
