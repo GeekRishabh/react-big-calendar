@@ -30501,7 +30501,7 @@
                 type: 'button',
                 onClick: this.navigate.bind(null, navigate.PREVIOUS),
                 id: 'navigate-left',
-                className: 'back fc-icon fc-icon-chevron-left',
+                className: 'back',
               },
               React__default.createElement('i', {
                 className: 'fa fa-chevron-left',
@@ -30513,7 +30513,7 @@
                 type: 'button',
                 onClick: this.navigate.bind(null, navigate.NEXT),
                 id: 'navigate-right',
-                className: 'next fc-icon fc-icon-chevron-right',
+                className: 'next',
               },
               React__default.createElement('i', {
                 className: 'fa fa-chevron-right',
