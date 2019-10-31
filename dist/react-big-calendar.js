@@ -2030,10 +2030,10 @@
     DATE: 'DATE',
   }
   var views = {
-    MONTH: 'month',
-    WEEK: 'week',
-    WORK_WEEK: 'work_week',
     DAY: 'day',
+    WEEK: 'week',
+    MONTH: 'month',
+    WORK_WEEK: 'work_week',
     AGENDA: 'agenda',
   }
 
@@ -30501,10 +30501,10 @@
                 type: 'button',
                 onClick: this.navigate.bind(null, navigate.PREVIOUS),
                 id: 'navigate-left',
-                className: 'back',
+                className: 'back fc-icon fc-icon-chevron-left',
               },
               React__default.createElement('i', {
-                className: 'fa fa-chevron-down',
+                className: 'fa fa-chevron-left',
               })
             ),
             React__default.createElement(
@@ -30513,10 +30513,10 @@
                 type: 'button',
                 onClick: this.navigate.bind(null, navigate.NEXT),
                 id: 'navigate-right',
-                className: 'next',
+                className: 'next fc-icon fc-icon-chevron-right',
               },
               React__default.createElement('i', {
-                className: 'fa fa-chevron-up',
+                className: 'fa fa-chevron-right',
               })
             )
           ),

@@ -65,10 +65,10 @@ var navigate = {
   DATE: 'DATE',
 }
 var views = {
-  MONTH: 'month',
-  WEEK: 'week',
-  WORK_WEEK: 'work_week',
   DAY: 'day',
+  WEEK: 'week',
+  MONTH: 'month',
+  WORK_WEEK: 'work_week',
   AGENDA: 'agenda',
 }
 
@@ -5177,10 +5177,10 @@ var Toolbar =
               type: 'button',
               onClick: this.navigate.bind(null, navigate.PREVIOUS),
               id: 'navigate-left',
-              className: 'back',
+              className: 'back fc-icon fc-icon-chevron-left',
             },
             React.createElement('i', {
-              className: 'fa fa-chevron-down',
+              className: 'fa fa-chevron-left',
             })
           ),
           React.createElement(
@@ -5189,10 +5189,10 @@ var Toolbar =
               type: 'button',
               onClick: this.navigate.bind(null, navigate.NEXT),
               id: 'navigate-right',
-              className: 'next',
+              className: 'next fc-icon fc-icon-chevron-right',
             },
             React.createElement('i', {
-              className: 'fa fa-chevron-up',
+              className: 'fa fa-chevron-right',
             })
           )
         ),
