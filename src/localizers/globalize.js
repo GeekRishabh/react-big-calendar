@@ -1,4 +1,3 @@
-import * as dates from '../utils/dates'
 import oldGlobalize from './oldGlobalize'
 import { DateLocalizer } from '../localizer'
 import warning from 'warning'
@@ -22,7 +21,7 @@ let timeRangeEndFormat = ({ end }, culture, local) =>
 let weekRangeFormat = ({ start, end }, culture, local) =>
   local.format(start, 'MMM dd', culture) +
   ' – ' +
-  local.format(end, dates.eq(start, end, 'month') ? 'dd' : 'MMM dd', culture)
+  local.format(end, 'MMM dd', culture)
 
 export let formats = {
   dateFormat: 'dd',
@@ -46,7 +45,7 @@ export let formats = {
   agendaTimeRangeFormat: timeRangeFormat,
 }
 
-export default function(globalize) {
+export default function (globalize) {
   let locale = culture => (culture ? globalize(culture) : globalize)
 
   // return the first day of the week from the locale data. Defaults to 'world'

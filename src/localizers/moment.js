@@ -1,4 +1,3 @@
-import * as dates from '../utils/dates'
 import { DateLocalizer } from '../localizer'
 
 let dateRangeFormat = ({ start, end }, culture, local) =>
@@ -16,7 +15,7 @@ let timeRangeEndFormat = ({ end }, culture, local) =>
 let weekRangeFormat = ({ start, end }, culture, local) =>
   local.format(start, 'MMMM DD', culture) +
   ' – ' +
-  local.format(end, dates.eq(start, end, 'month') ? 'DD' : 'MMMM DD', culture)
+  local.format(end, 'MMMM DD', culture)
 
 export let formats = {
   dateFormat: 'DD',
@@ -40,7 +39,7 @@ export let formats = {
   agendaTimeRangeFormat: timeRangeFormat,
 }
 
-export default function(moment) {
+export default function (moment) {
   let locale = (m, c) => (c ? m.locale(c) : m)
 
   return new DateLocalizer({
