@@ -6386,7 +6386,7 @@ var weekRangeFormat = function weekRangeFormat(_ref5, culture, local) {
   return (
     local.format(start, 'MMMM DD', culture) +
     ' – ' +
-    local.format(end, eq(start, end, 'month') ? 'DD' : 'MMMM DD', culture)
+    local.format(end, 'MMMM DD', culture)
   )
 }
 
@@ -6460,7 +6460,7 @@ var weekRangeFormat$1 = function weekRangeFormat(_ref5, culture, local) {
   return (
     local.format(start, 'MMM dd', culture) +
     ' – ' +
-    local.format(end, eq(start, end, 'month') ? 'dd' : 'MMM dd', culture)
+    local.format(end, 'MMM dd', culture)
   )
 }
 
@@ -6581,7 +6581,7 @@ var weekRangeFormat$2 = function weekRangeFormat(_ref5, culture, local) {
   return (
     local.format(start, 'MMM dd', culture) +
     ' – ' +
-    local.format(end, eq(start, end, 'month') ? 'dd' : 'MMM dd', culture)
+    local.format(end, 'MMM dd', culture)
   )
 }
 

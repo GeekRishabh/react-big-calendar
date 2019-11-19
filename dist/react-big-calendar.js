@@ -31709,7 +31709,7 @@
     return (
       local.format(start, 'MMMM DD', culture) +
       ' – ' +
-      local.format(end, eq(start, end, 'month') ? 'DD' : 'MMMM DD', culture)
+      local.format(end, 'MMMM DD', culture)
     )
   }
 
@@ -31791,7 +31791,7 @@
     return (
       local.format(start, 'MMM dd', culture) +
       ' – ' +
-      local.format(end, eq(start, end, 'month') ? 'dd' : 'MMM dd', culture)
+      local.format(end, 'MMM dd', culture)
     )
   }
 
@@ -31918,7 +31918,7 @@
     return (
       local.format(start, 'MMM dd', culture) +
       ' – ' +
-      local.format(end, eq(start, end, 'month') ? 'dd' : 'MMM dd', culture)
+      local.format(end, 'MMM dd', culture)
     )
   }
 
